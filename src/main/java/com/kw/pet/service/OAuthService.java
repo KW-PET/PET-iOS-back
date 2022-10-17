@@ -1,5 +1,6 @@
 package com.kw.pet.service;
 
+<<<<<<< HEAD
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -8,6 +9,14 @@ import com.kw.pet.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+=======
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonElement;
+import com.kw.pet.domain.user.UserRepository;
+import com.kw.pet.domain.user.User;
+import lombok.RequiredArgsConstructor;
+>>>>>>> origin/main
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -91,6 +100,11 @@ public class OAuthService {
 
             if(responseCode ==400)
                 throw new RuntimeException("카카오 로그아웃 도중 오류 발생");
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/main
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
             String br_line = "";
@@ -106,6 +120,13 @@ public class OAuthService {
         return null;
     }
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> origin/main
     //GetUserInfo
     public HashMap<String, Object> getUserInfo(String access_Token) {
 

@@ -63,6 +63,11 @@ public class OAuthController {
 //            userRepository.save(user);
 //        }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/main
         return ResponseEntity.ok("사용자 정보 받아옴");
 
         //    클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
@@ -82,6 +87,11 @@ public class OAuthController {
         return ResponseEntity.ok("로그아웃");
     }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/main
     @GetMapping("/getfriends")
     public Object getFriends(@PathParam(value = "access_token") String access_token){
 //        oauthService.getFriends(access_token);
@@ -92,6 +102,10 @@ public class OAuthController {
         ResponseEntity<String> response;
         headers.add("Authorization", "Bearer " + access_token);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 //        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
         String redirect_uri="https://kapi.kakao.com/v1/api/talk/friends";
 
