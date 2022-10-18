@@ -1,11 +1,13 @@
 package com.kw.pet.service;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonElement;
-import com.kw.pet.domain.user.UserRepository;
 import com.kw.pet.domain.user.User;
+import com.kw.pet.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -76,43 +78,8 @@ public class OAuthService {
     }
 
 
-    public HashMap<String, Object> getLogout(String access_token) {
-        String reqURL ="https://kapi.kakao.com/v1/user/logout";
-        try {
-            URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-
-            conn.setRequestProperty("Authorization", "Bearer " + access_token);
-            int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
-
-            if(responseCode ==400)
-                throw new RuntimeException("카카오 로그아웃 도중 오류 발생");
-
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-            String br_line = "";
-            String result = "";
-            while ((br_line = br.readLine()) != null) {
-                result += br_line;
-            }
-            System.out.println("결과");
-            System.out.println(result);
-        }catch(IOException e) {
-
-        }
-        return null;
-    }
-
-
-
-
-
     //GetUserInfo
     public HashMap<String, Object> getUserInfo(String access_Token) {
-
         //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
         HashMap<String, Object> userInfo = new HashMap<>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
