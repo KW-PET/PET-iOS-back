@@ -1,9 +1,12 @@
-package com.kw.pet.controller.login;
+package com.kw.pet.controller;
 
 
 import com.kw.pet.config.BaseException;
+import com.kw.pet.config.JwtService;
+import com.kw.pet.dto.JsonResponse;
 import com.kw.pet.service.OAuthService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +20,7 @@ import javax.websocket.server.PathParam;
 import java.util.HashMap;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/kakao")
 public class OAuthController {
     //코드 받아오기
@@ -25,26 +28,21 @@ public class OAuthController {
      * 카카오 callback
      * [GET] /kakao/login/callback
      */
-
-
-    @Autowired
-    private OAuthService oauthService;
-
+    private final OAuthService oauthService;
+    private final JwtService jwtService;
 
     //localhost:8080/kakao/login
-    @ResponseBody
     @GetMapping("/login")
-    public ResponseEntity<String> kakaoCallback(@RequestParam String code) throws BaseException {
+    public ResponseEntity<JsonResponse> kakaoCallback(@RequestParam String code) throws BaseException {
 
 //        User user = new User();
 
         System.out.println("code : " + code);
         String access_Token = oauthService.getKakaoAccessToken(code);
-        System.out.println("controller   : " + access_Token);
+//        System.out.println("controller   : " + access_Token);
 
         HashMap<String, Object> userInfo =  oauthService.getUserInfo(access_Token);
-        System.out.println("login Controller : " + userInfo);
-
+//        System.out.println("login Controller : " + userInfo);
 
         String uuid = (String) userInfo.get("uuid");
 
@@ -62,8 +60,8 @@ public class OAuthController {
 //            user.setToken(access_Token);
 //            userRepository.save(user);
 //        }
-
-        return ResponseEntity.ok("사용자 정보 받아옴");
+        String token = jwtService.createToken(uuid);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "kakao", token));
 
         //    클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
 //        if (userInfo.get("email") != null) {
@@ -73,7 +71,7 @@ public class OAuthController {
     }
 
     //로그아웃
-        @GetMapping("/logout")
+    @GetMapping("/logout")
     public Object getLogout(@PathParam(value = "access_token") String access_token){
 //        oauthService.getFriends(access_token);
         System.out.println("accessToken :"+access_token);

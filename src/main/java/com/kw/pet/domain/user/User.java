@@ -1,26 +1,24 @@
 package com.kw.pet.domain.user;
 
-import com.kw.pet.config.BaseException;
-import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.kw.pet.domain.BaseTime;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Builder
-@Data
-@Entity
+@Getter
+@Setter
+@Table(name = "user")
 @NoArgsConstructor
-@AllArgsConstructor
-public class User implements Serializable {
-
+@Entity
+//public class User implements Serializable {
+public class User extends BaseTime {
     @Id // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "user_id")
+    private int userId;
+
     private String uuid;
     private String name;
     private String nickname;
@@ -28,5 +26,13 @@ public class User implements Serializable {
     private String token;
     private String fcmtoken;
 
-
+    @Builder
+    public User(String uuid, String name, String nickname, String email, String token, String fcmtoken) {
+        this.uuid = uuid;
+        this.name = name;
+        this.nickname = nickname;
+        this.email = email;
+        this.token = token;
+        this.fcmtoken = fcmtoken;
+    }
 }

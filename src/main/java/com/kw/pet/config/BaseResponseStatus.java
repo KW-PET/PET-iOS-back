@@ -20,13 +20,17 @@ public enum BaseResponseStatus {
 
     // users
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
-
+    //community
+    COMMUNITY_EMPTY_POST_ID(false, 2020,"유효하지 않은 PostId 입니다."),
+    COMMUNITY_EMPTY_USER_POST(false, 2021,"user의 게시글이 없습니다"),
 
     /**
      * 3000 : Response 오류
      */
     // Common
     RESPONSE_ERROR(false, 3000, "값을 불러오는데 실패하였습니다."),
+
+
 
 
     /**
@@ -39,11 +43,11 @@ public enum BaseResponseStatus {
 
     private final boolean isSuccess;
     private final int code;
-    private final String message;
+    private final String content;
 
-    BaseResponseStatus(boolean isSuccess, int code, String message) {
+    BaseResponseStatus(boolean isSuccess, int code, String content) {
         this.isSuccess = isSuccess;
         this.code = code;
-        this.message = message;
+        this.content = content;
     }
 }

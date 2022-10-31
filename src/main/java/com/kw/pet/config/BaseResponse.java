@@ -11,11 +11,11 @@ import static com.kw.pet.config.BaseResponseStatus.SUCCESS;
 
 @Getter
 @AllArgsConstructor
-@JsonPropertyOrder({"isSuccess", "code", "message", "result"})
+@JsonPropertyOrder({"isSuccess", "code", "title", "content", "result"})
 public class BaseResponse<T> {
     @JsonProperty("isSuccess")
     private final Boolean isSuccess;
-    private final String message;
+    private final String content;
     private final int code;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
@@ -24,7 +24,7 @@ public class BaseResponse<T> {
     public BaseResponse(T result) {
         System.out.println("BaseResponse 실행 성공");
         this.isSuccess = SUCCESS.isSuccess();
-        this.message = SUCCESS.getMessage();
+        this.content = SUCCESS.getContent();
         this.code = SUCCESS.getCode();
         this.result = result;
     }
@@ -33,7 +33,7 @@ public class BaseResponse<T> {
     public BaseResponse(BaseResponseStatus status) {
         System.out.println("BaseResponse 실행 실패");
         this.isSuccess = status.isSuccess();
-        this.message = status.getMessage();
+        this.content = status.getContent();
         this.code = status.getCode();
     }
 }

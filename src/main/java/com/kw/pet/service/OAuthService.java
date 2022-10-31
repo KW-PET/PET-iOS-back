@@ -6,8 +6,6 @@ import com.google.gson.JsonParser;
 import com.kw.pet.domain.user.User;
 import com.kw.pet.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -65,8 +63,8 @@ public class OAuthService {
             access_Token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 
-            System.out.println("access_token : " + access_Token);
-            System.out.println("refresh_token : " + refresh_Token);
+//            System.out.println("access_token : " + access_Token);
+//            System.out.println("refresh_token : " + refresh_Token);
 
             br.close();
             bw.close();
@@ -102,7 +100,7 @@ public class OAuthService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body : " + result);
+//            System.out.println("response body : " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
@@ -111,15 +109,12 @@ public class OAuthService {
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-//            String email = kakao_account.getAsJsonObject().get("email").getAsString();
+            String email = kakao_account.getAsJsonObject().get("email").getAsString();
             String uuid = element.getAsJsonObject().get("id").getAsString();
 
-
             userInfo.put("nickname", nickname);
-//            userInfo.put("email", email);
+            userInfo.put("email", email);
             userInfo.put("uuid", uuid);
-
-
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
