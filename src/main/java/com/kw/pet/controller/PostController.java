@@ -18,6 +18,7 @@ import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * REST API Controller
@@ -45,18 +46,19 @@ public class PostController {
     }
 
     /* READ */
-//    @GetMapping("/post/{postId}")
-//    public ResponseEntity read(@PathVariable Long postId) {
-//        try{
-////            PostResponseDto.Response post = postService.read(postId);
+    @GetMapping("/post/{postId}")
+    public ResponseEntity read(@PathVariable Long postId) {
+        try{
+//            PostResponseDto.Response post = postService.read(postId);
+              Optional<Post> response = postService.getPostList(postId);
 //            List<Post> response = postService.getPostList(postId);
-//            return ResponseEntity.ok(new JsonResponse(true, 200, "readPost", response));
-//
-//        }catch (IllegalArgumentException e){
-//            log.info("not found post");
-//            return ResponseEntity.badRequest().body(new ErrorResponse(false, 404, "not found Post"));
-//        }
-//    }
+            return ResponseEntity.ok(new JsonResponse(true, 200, "readPost", response));
+
+        }catch (IllegalArgumentException e){
+            log.info("not found post");
+            return ResponseEntity.badRequest().body(new ErrorResponse(false, 404, "not found Post"));
+        }
+    }
 
     @GetMapping("/community/{page}/{limit}")
     public ResponseEntity community(@RequestBody PostResponseDto.community dto){
@@ -64,9 +66,19 @@ public class PostController {
         return ResponseEntity.ok(new JsonResponse(true, 200, "community", postList));
     }
 
+//    /* UPDATE */
+//    @PutMapping("/post/edit/{postId}")
+//    public ResponseEntity update(@PathVariable Long postId, @RequestBody PostResponseDto.Request dto) {
+//        postService.update(postId, dto);
+//        return ResponseEntity.ok(new JsonResponse(true, 200, "updatePost", postId));
+//    }
+
     /* UPDATE */
     @PutMapping("/post/edit/{postId}")
-    public ResponseEntity update(@PathVariable Long postId, @RequestBody PostResponseDto.Request dto) {
+    public ResponseEntity update(@PathVariable Long postId, @RequestBody PostResponseDto.Request dto, HttpServletRequest request) {
+        String userUuid = jwtService.resolveToken(request);
+        User user = userService.getUser(userUuid);
+        System.out.println(user.getUuid()+user.getNickname());
         postService.update(postId, dto);
         return ResponseEntity.ok(new JsonResponse(true, 200, "updatePost", postId));
     }

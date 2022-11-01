@@ -5,7 +5,6 @@ import com.kw.pet.dto.PostResponseDto;
 import com.kw.pet.domain.post.Post;
 import com.kw.pet.domain.post.PostRepository;
 import com.kw.pet.domain.user.User;
-import com.kw.pet.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -92,9 +91,14 @@ public class PostService {
         return postList;
     }
 
+    public Optional<Post> getPostList(Long postId) {
+        Optional<Post> postLists = postRepository.findByPostId(postId);
+        return postLists;
+    }
+
 //    public List<Post> getPostList(Long postId) {
-//        List<Post> postList = postRepository.findALLByPostId(postId);
-//        return postList;
+//        List<Post> postLists = postRepository.findALLByPostId(postId);
+//        return postLists;
 //    }
 
 

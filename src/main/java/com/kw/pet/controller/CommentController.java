@@ -1,7 +1,10 @@
 package com.kw.pet.controller;
 
 import com.kw.pet.config.JwtService;
+import com.kw.pet.domain.comment.Comment;
+import com.kw.pet.domain.post.Post;
 import com.kw.pet.dto.JsonResponse;
+import com.kw.pet.dto.ResponseMapping;
 import com.kw.pet.service.CommentService;
 import com.kw.pet.dto.CommentResponseDto;
 import com.kw.pet.dto.UserResponseDto;
@@ -24,7 +27,7 @@ public class CommentController {
 
     /* CREATE */
 
-    @PostMapping("/comment/write")
+    @PostMapping("/comment")
     public ResponseEntity save(@RequestBody CommentResponseDto.createComment dto, HttpServletRequest request) {
         String userUuid = jwtService.resolveToken(request);
         Long commentIdx = commentService.save(dto, userUuid);
@@ -33,13 +36,14 @@ public class CommentController {
 
 //    /* READ */
     @GetMapping("/comment/{postid}")
-    public List<CommentResponseDto.Response> read(@PathVariable Long postid) {
-        return commentService.findAll(postid);
+    public ResponseEntity<JsonResponse> read(@PathVariable Long postid) {
+        ResponseMapping.PostandComm response =  commentService.findAll(postid);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "CommentRead", response));
     }
 
     //댓글 수정 보류
     /* UPDATE
-    @PutMapping("/edit/:commentid")
+    @PutMapping("/edit/{commentid}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody CommentResponseDto.Request dto) {
         commentService.update(id, dto);
         return ResponseEntity.ok(id);
@@ -48,11 +52,11 @@ public class CommentController {
      */
 
 
-
-    /* DELETE */
-    @DeleteMapping("/:commentid")
-    public ResponseEntity delete(@PathVariable Long id) {
-        commentService.delete(id);
-        return ResponseEntity.ok(id);
-    }
+//    //댓글 삭제 보류
+//    /* DELETE */
+//    @DeleteMapping("/{commentid}")
+//    public ResponseEntity delete(@PathVariable Long commentId) {
+//        commentService.delete(commentId);
+//        return ResponseEntity.ok(commentId);
+//    }
 }

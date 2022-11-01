@@ -59,14 +59,14 @@ public class CommentResponseDto {
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate ;
         private String nickname;
-        private Long userId;
+        private User user;
         private Long postId;
         /* Entity -> Dto*/
         public Response(Comment comment) {
             this.id = comment.getCommentId();
             this.comment = comment.getComment();
             this.nickname = comment.getUser().getNickname();
-            this.userId = Long.valueOf(comment.getUser().getUserId());
+            this.user = comment.getUser();
             this.postId = comment.getPost().getPostId();
             this.createdDate = comment.getCreatedAt();
             this.modifiedDate = comment.getModifiedAt();

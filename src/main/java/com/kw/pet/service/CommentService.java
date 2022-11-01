@@ -7,6 +7,7 @@ import com.kw.pet.domain.post.PostRepository;
 import com.kw.pet.domain.user.User;
 import com.kw.pet.domain.user.UserRepository;
 import com.kw.pet.dto.CommentResponseDto;
+import com.kw.pet.dto.ResponseMapping;
 import com.kw.pet.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,12 +39,14 @@ public class CommentService {
 
     /* READ */
     @Transactional(readOnly = true)
-    public List<CommentResponseDto.Response> findAll(Long id) {
+    public ResponseMapping.PostandComm findAll(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id: " + id));
-        List<Comment> comment = commentRepository.findAllByPostId(post);
-
-        return comment.stream().map(CommentResponseDto.Response::new).collect(Collectors.toList());
+        List<Comment> comments = commentRepository.findAllByPostId(post.getPostId());
+//        return comments;
+        List<CommentResponseDto.Response> commentList = comments.stream().map(CommentResponseDto.Response::new).collect(Collectors.toList());
+        ResponseMapping.PostandComm response = new ResponseMapping.PostandComm(post, commentList);
+        return response;
     }
 
     /* UPDATE */
