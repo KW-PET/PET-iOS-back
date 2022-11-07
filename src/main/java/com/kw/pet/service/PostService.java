@@ -18,7 +18,7 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class PostService {
+public class PostService<Int, Optimal> {
     private final PostRepository postRepository;
 
     /* CREATE */
@@ -33,6 +33,7 @@ public class PostService {
                 .writer(user.getNickname())
                 .tag(dto.getTag())
                 .category(dto.getCategory())
+                .pic(dto.getPic())
                 .build();
         postRepository.save(post);
 
@@ -56,7 +57,7 @@ public class PostService {
                 new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
 
 //            post.update(dto.getTitle(), dto.getContent());
-        post.update(dto.getTitle(), dto.getContent(), dto.getTag(), dto.getCategory());
+        post.update(dto.getTitle(), dto.getContent(), dto.getTag(), dto.getCategory(), dto.getPic());
     }
 
     /* DELETE */
@@ -69,10 +70,10 @@ public class PostService {
     }
 
 //    /* Views Counting */
-//    @Transactional
-//    public int updateView(Long id) {
-//        return postRepository.updateView(id);
-//    }
+    @Transactional
+    public int updateView(Long postId) {
+        return postRepository.updateView(postId);
+    }
 
 
     /* Paging and Sort */
@@ -91,10 +92,20 @@ public class PostService {
         return postList;
     }
 
+//    public List<Post> getPostListByView(int view) {
+//        List<Post> postList = postRepository.findAllByView(view);
+//        return postList;
+//    }
+//    public List<Post> getPostListByView(int view) {
+//        return postRepository.findAllByView(view);
+//    }
+
     public Optional<Post> getPostList(Long postId) {
         Optional<Post> postLists = postRepository.findByPostId(postId);
         return postLists;
     }
+
+
 
 //    public List<Post> getPostList(Long postId) {
 //        List<Post> postLists = postRepository.findALLByPostId(postId);

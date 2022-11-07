@@ -1,9 +1,11 @@
 package com.kw.pet.domain.post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+
 import java.util.Optional;
 
 
@@ -18,9 +20,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 //    @Query(value = "select p from Post p where p.post_id = ?1")
 //    List<Post> findALLByPostId(Long postId);
 
-//    @Modifying
-//    @Query("update Post p set p.view = p.view + 1 where p.id = :id")
-//    int updateView(Long id);
+    @Modifying
+    @Query("update Post p set p.view = p.view + 1 where p.postId = :postId")
+    int updateView(Long postId);
 //
 //    Page<Post> findByTitleContaining(String keyword, Pageable pageable);
 //

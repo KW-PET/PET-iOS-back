@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 /**
  * REST API Controller
  */
@@ -52,6 +54,7 @@ public class PostController {
 //            PostResponseDto.Response post = postService.read(postId);
               Optional<Post> response = postService.getPostList(postId);
 //            List<Post> response = postService.getPostList(postId);
+                postService.updateView(postId); // views ++
             return ResponseEntity.ok(new JsonResponse(true, 200, "readPost", response));
 
         }catch (IllegalArgumentException e){
@@ -60,6 +63,7 @@ public class PostController {
         }
     }
 
+        //커뮤니티 목록 가져오기
     @GetMapping("/community/{page}/{limit}")
     public ResponseEntity community(@RequestBody PostResponseDto.community dto){
         List<Post> postList = postService.getPostListByCategory(dto.getCategory());

@@ -39,6 +39,10 @@ public class Post extends BaseTime {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
 
+    @Column(length = 500)
+    private String pic;
+
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -50,22 +54,24 @@ public class Post extends BaseTime {
 
 
     @Builder
-    public Post(String title, String content, String writer, int view, User user, String tag, String category) {
+    public Post(String title, String content, String writer, int view, User user, String tag, String pic, String category) {
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.tag = tag;
         this.category = category;
         this.view = view;
+        this.pic = pic;
         this.user = user;
     }
 
     /* 게시글 수정 */
-    public void update(String title, String content, String tag, String category) {
+    public void update(String title, String content, String tag, String category, String pic) {
         this.title = title;
         this.content = content;
         this.tag = tag;
         this.category = category;
+        this.pic = pic;
     }
 
 }

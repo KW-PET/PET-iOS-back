@@ -20,6 +20,7 @@ public class PostResponseDto {
         private String content;
         private String tag;
         private String category;
+        private String pic;
 
         /* Dto -> Entity */
 //        public Post toEntity() {
@@ -49,6 +50,8 @@ public class PostResponseDto {
         private String category;
         //private final String createdDate, modifiedDate;
         private int view;
+
+        private String pic;
         private Long userId;
 //        private final List<CommentResponseDto.Response> comment;
 
@@ -61,6 +64,7 @@ public class PostResponseDto {
             this.tag = post.getTag();
             this.category = post.getCategory();
             this.view = post.getView();
+            this.pic = post.getPic();
             this.userId = Long.valueOf(post.getUser().getUserId());
 //            this.comment = post.getComment().stream().map(CommentResponseDto.Response::new).collect(Collectors.toList());
         }
