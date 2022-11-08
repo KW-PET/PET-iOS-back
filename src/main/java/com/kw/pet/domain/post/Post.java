@@ -31,7 +31,7 @@ public class Post extends BaseTime {
     @Column(nullable = false)
     private String writer;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String tag;
 
     @Column(nullable = false)

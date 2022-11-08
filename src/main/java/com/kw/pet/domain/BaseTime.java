@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 public class BaseTime {
 
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime created_at;
 
     @LastModifiedDate
-    private LocalDateTime modifiedAt;
+    private LocalDateTime modified_at;
 }
