@@ -42,17 +42,17 @@ public class PostLikeService {
 
     }
 
-//    public void cancelLike(User user, Long postId) {
+    //    public void cancelLike(User user, Long postId) {
 //        Post post = postRepository.findByPostId(postId).orElseThrow();
 //        PostLike postlike = postlikeRepository.findByUserAndPost(post, user).orElseThrow();
 //        postlikeRepository.delete(postlike);
 //        postlikeRepository.delete(new PostLike());
 //    }
-public void cancelLike(User user, Long postId) {
-    Post post = postRepository.findByPostId(postId).orElseThrow();
-    PostLike postlike = postlikeRepository.findByUserAndPost(postId, user).orElseThrow();
-    postlikeRepository.delete(postlike);
-}
+    public void cancelLike(User user, Long postId) {
+        Post post = postRepository.findByPostId(postId).orElseThrow();
+        PostLike postlike = postlikeRepository.findByUserAndPost(postId, user).orElseThrow();
+        postlikeRepository.delete(postlike);
+    }
 
 
 //일단 보류
@@ -84,7 +84,7 @@ public void cancelLike(User user, Long postId) {
 //        return likeCount;
 //    }
 
-//    사용자가 이미 좋아요 한 게시물인지 체크
+    //    사용자가 이미 좋아요 한 게시물인지 체크
 //    private boolean isNotAlreadyLike(User user, Post post) {
 //        return postlikeRepository.findByUserAndPost(post, user).isEmpty();
 //    }
