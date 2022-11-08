@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -39,8 +40,12 @@ public class Post extends BaseTime {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
 
+
     @Column(length = 500)
     private String pic;
+
+//    @Column(columnDefinition = "integer default 0")
+//    private Long likeCount;
 
 
     @ManyToOne

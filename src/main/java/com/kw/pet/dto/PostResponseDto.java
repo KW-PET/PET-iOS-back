@@ -52,6 +52,9 @@ public class PostResponseDto {
         private int view;
 
         private String pic;
+
+        private Long likeCount; //좋아요 수
+
         private Long userId;
 //        private final List<CommentResponseDto.Response> comment;
 
