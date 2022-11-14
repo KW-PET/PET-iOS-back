@@ -8,7 +8,12 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
-    Optional<Integer> countByPost(Post post);
+//    Integer countByPost(Post post);
     //    Optional<PostLike> findByUserAndPost(Post post, User user);
     Optional<PostLike> findByUserAndPost(Long postId, User user);
+
+
+    PostLike findByPost(Post post);
+
+    Integer countByPost(Post post);
 }

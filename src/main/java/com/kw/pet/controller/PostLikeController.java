@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.spring.web.json.Json;
 //import com.kw.pet.config.LoginSecurity;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,27 +60,29 @@ public class PostLikeController {
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
 
-    @DeleteMapping("/like/{postId}")
-    public ResponseEntity<String> cancelLike(@PathVariable Long postId, HttpServletRequest request) {
-        String userUuid = jwtService.resolveToken(request);
-        User user = userService.getUser(userUuid);
-        if (user != null) {
-            postlikeService.cancelLike(user, postId);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @DeleteMapping("/like/{postId}")
+//    public ResponseEntity<String> cancelLike(@PathVariable Long postId, HttpServletRequest request) {
+//        String userUuid = jwtService.resolveToken(request);
+//        User user = userService.getUser(userUuid);
+//        if (user != null) {
+//            postlikeService.cancelLike(user, postId);
+//        }
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     //좋아요 등록
     @PostMapping("/like/{postId}")
-    public ResponseEntity<String> addLike(@PathVariable Long postId, HttpServletRequest request) {
+    public ResponseEntity<JsonResponse> addLike(@PathVariable Long postId, HttpServletRequest request) {
         boolean result = false;
         String userUuid = jwtService.resolveToken(request);
         User user = userService.getUser(userUuid);
+        String like="";
         if (Objects.nonNull(user))
-            result = postlikeService.addLike(user, postId);
+            like = postlikeService.addLike(user, postId);
 
-        return result ?
-                new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "addLike", like));
+//        return result ?
+//                new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 //    @PostMapping("/like/{postId}")
 //    public ResponseEntity<String> addLike(@LoginSecurity User user,

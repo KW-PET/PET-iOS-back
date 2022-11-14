@@ -28,18 +28,25 @@ public class CommentController {
     /* CREATE */
 
     @PostMapping("/comment")
-    public ResponseEntity save(@RequestBody CommentResponseDto.createComment dto, HttpServletRequest request) {
+    public ResponseEntity parentCommentSave(@RequestBody CommentResponseDto.parentComment dto, HttpServletRequest request) {
         String userUuid = jwtService.resolveToken(request);
-        Long commentIdx = commentService.save(dto, userUuid);
-        return ResponseEntity.ok(new JsonResponse(true, 200, "comment save", commentIdx));
+        Long postId = commentService.parentSave(dto, userUuid);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "comment save", postId));
     }
 
-//    /* READ */
-    @GetMapping("/comment/{postid}")
-    public ResponseEntity<JsonResponse> read(@PathVariable Long postid) {
-        ResponseMapping.PostandComm response =  commentService.findAll(postid);
-        return ResponseEntity.ok(new JsonResponse(true, 200, "CommentRead", response));
+    @PostMapping("/comment/reply")
+    public ResponseEntity childCommentSave(@RequestBody CommentResponseDto.childComment dto, HttpServletRequest request) {
+        String userUuid = jwtService.resolveToken(request);
+        Long postId = commentService.childSave(dto, userUuid);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "comment save", postId));
     }
+
+    /* READ */
+//    @GetMapping("/comment/{postid}")
+//    public ResponseEntity<JsonResponse> read(@PathVariable Long postid) {
+//        ResponseMapping.PostandComm response =  commentService.findAll(postid);
+//        return ResponseEntity.ok(new JsonResponse(true, 200, "CommentRead", response));
+//    }
 
     //댓글 수정 보류
     /* UPDATE

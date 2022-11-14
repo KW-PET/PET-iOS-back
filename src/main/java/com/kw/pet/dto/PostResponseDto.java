@@ -9,6 +9,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PostResponseDto {
+
+    @Data
+    @AllArgsConstructor
+    public static class readPost{
+        private Post post;
+        private int countLike;
+        private int countComment;
+        private Object comments;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class readPostList{
+        private Post post;
+        private int countLike;
+        private int countComment;
+    }
+
     /** 게시글의 등록과 수정을 처리할 요청(Request) 클래스 */
     @Data
     @Builder
@@ -79,4 +97,6 @@ public class PostResponseDto {
     public static class community {
         private String category;
     }
+
+
 }

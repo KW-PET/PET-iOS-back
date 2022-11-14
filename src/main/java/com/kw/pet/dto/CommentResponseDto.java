@@ -8,6 +8,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CommentResponseDto {
@@ -16,9 +18,18 @@ public class CommentResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class createComment {
+    public static class parentComment {
         private String comment;
         private Long post;
+    }
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class childComment {
+        private String comment;
+        private Long post;
+        private Long parentId;
     }
 
     @Data
@@ -59,17 +70,45 @@ public class CommentResponseDto {
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate ;
         private String nickname;
-        private User user;
-        private Long postId;
+        private List<childResponse> childComments = new ArrayList<>();
+//        private User user;
+//        private Long postId;
         /* Entity -> Dto*/
-        public Response(Comment comment) {
+        public Response(Comment comment, List<Comment> childComment) {
             this.id = comment.getCommentId();
             this.comment = comment.getComment();
             this.nickname = comment.getUser().getNickname();
-            this.user = comment.getUser();
-            this.postId = comment.getPost().getPostId();
+//            this.user = comment.getUser();
+//            this.postId = comment.getPost().getPostId();
+            this.createdDate = comment.getCreated_at();
+            this.modifiedDate = comment.getModified_at();
+            for(Comment child :childComment){
+                this.childComments.add(new childResponse(child));
+            }
+
+        }
+    }
+
+    @RequiredArgsConstructor
+    @Getter
+    public static class childResponse {
+        private Long id;
+        private String comment;
+        private LocalDateTime createdDate;
+        private LocalDateTime modifiedDate ;
+        private String nickname;
+        //        private User user;
+//        private Long postId;
+        /* Entity -> Dto*/
+        public childResponse(Comment comment) {
+            this.id = comment.getCommentId();
+            this.comment = comment.getComment();
+            this.nickname = comment.getUser().getNickname();
+//            this.user = comment.getUser();
+//            this.postId = comment.getPost().getPostId();
             this.createdDate = comment.getCreated_at();
             this.modifiedDate = comment.getModified_at();
         }
     }
+
 }

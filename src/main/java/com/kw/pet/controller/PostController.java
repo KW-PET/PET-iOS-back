@@ -1,13 +1,15 @@
 package com.kw.pet.controller;
 
 
+import com.kw.pet.config.BaseException;
+import com.kw.pet.config.BaseResponse;
 import com.kw.pet.config.JwtService;
+import com.kw.pet.domain.comment.Comment;
 import com.kw.pet.domain.post.Post;
 import com.kw.pet.domain.user.User;
-import com.kw.pet.dto.ErrorResponse;
-import com.kw.pet.dto.JsonResponse;
-import com.kw.pet.dto.PostResponseDto;
-import com.kw.pet.dto.UserResponseDto;
+import com.kw.pet.dto.*;
+import com.kw.pet.service.CommentService;
+import com.kw.pet.service.PostLikeService;
 import com.kw.pet.service.PostService;
 import com.kw.pet.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,8 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 public class PostController {
     private final PostService postService;
     private final UserService userService;
+    private final PostLikeService postLikeService;
+    private final CommentService commentService;
     private final JwtService jwtService;
 
 
@@ -49,24 +53,27 @@ public class PostController {
 
     /* READ */
     @GetMapping("/post/{postId}")
-    public ResponseEntity read(@PathVariable Long postId) {
-        try{
+    public ResponseEntity<JsonResponse> read(@PathVariable Long postId) {
 //            PostResponseDto.Response post = postService.read(postId);
-              Optional<Post> response = postService.getPostList(postId);
+        System.out.println(postId);
+            Post post = postService.getPost(postId);
+            int countLike = postLikeService.countLike(post);
+            int countComment = commentService.countComment(post);
+            List<CommentResponseDto.Response> comments = commentService.findAll(post);
 //            List<Post> response = postService.getPostList(postId);
-                postService.updateView(postId); // views ++
+            postService.updateView(postId); // views ++
+
+
+            PostResponseDto.readPost response = new PostResponseDto.readPost(post, countLike, countComment, comments);
+
             return ResponseEntity.ok(new JsonResponse(true, 200, "readPost", response));
 
-        }catch (IllegalArgumentException e){
-            log.info("not found post");
-            return ResponseEntity.badRequest().body(new ErrorResponse(false, 404, "not found Post"));
-        }
     }
 
         //커뮤니티 목록 가져오기
     @GetMapping("/community/{page}/{limit}")
     public ResponseEntity community(@RequestBody PostResponseDto.community dto){
-        List<Post> postList = postService.getPostListByCategory(dto.getCategory());
+        List<PostResponseDto.readPostList> postList = postService.getPostListByCategory(dto.getCategory());
         return ResponseEntity.ok(new JsonResponse(true, 200, "community", postList));
     }
 

@@ -25,15 +25,15 @@ public class User extends BaseTime {
     private String nickname;
     private String email;
     private String token;
-    private String fcmtoken;
+    private String fcm_token;
 
     @Builder
-    public User(String uuid, String name, String nickname, String email, String token, String fcmtoken) {
+    public User(String uuid, String name, String nickname, String email, String token, String fcm_token) {
         this.uuid = uuid;
         this.name = name;
         this.nickname = nickname;
         this.email = email;
         this.token = token;
-        this.fcmtoken = fcmtoken;
+        this.fcm_token = fcm_token;
     }
 }

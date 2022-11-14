@@ -20,6 +20,12 @@ public class Comment extends BaseTime {
     @Column(name ="comment_id")
     private Long commentId;
 
+    @Column(nullable = true)
+    private Long parentCommentId;
+
+    @Column(nullable = false)
+    private Boolean isParent;
+
     @Column(nullable = false)
     private String comment; // 댓글 내용
 
@@ -40,7 +46,11 @@ public class Comment extends BaseTime {
 //        this.user = user;
 //    }
 
-    public Comment(String comment, Post post, User user) {
+
+    @Builder
+    public Comment(Long parentCommentId, Boolean isParent, String comment, Post post, User user) {
+        this.parentCommentId = parentCommentId;
+        this.isParent = isParent;
         this.comment = comment;
         this.post = post;
         this.user = user;

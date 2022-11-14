@@ -11,7 +11,7 @@ public class UserResponseDto {
     private String nickname;
     private String email;
     private String token;
-    private String fcmtoken;
+    private String fcm_token;
 
     @NoArgsConstructor
     @AllArgsConstructor
@@ -22,7 +22,7 @@ public class UserResponseDto {
         private String nickname;
         private String email;
         private String token;
-        private String fcmtoken;
+        private String fcm_token;
     }
 
     @NoArgsConstructor

@@ -1,6 +1,8 @@
 package com.kw.pet.service;
 
 
+import com.kw.pet.config.BaseException;
+import com.kw.pet.config.exception.BadRequestException;
 import com.kw.pet.dto.PostResponseDto;
 import com.kw.pet.domain.post.Post;
 import com.kw.pet.domain.post.PostRepository;
@@ -12,20 +14,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.kw.pet.config.BaseResponseStatus.RESPONSE_ERROR;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class PostService<Int, Optimal> {
     private final PostRepository postRepository;
+    private final PostLikeService postLikeService;
+    private final CommentService commentService;
 
     /* CREATE */
     @Transactional
     public Long save(PostResponseDto.Request dto, User user) {
         /* User 정보를 가져와 dto에 담아준다. */
         log.info("PostsService save() 실행");
+        System.out.println("test     "+user.getNickname());
         Post post = Post.builder()
                 .content(dto.getContent())
                 .title(dto.getTitle())
@@ -54,7 +62,7 @@ public class PostService<Int, Optimal> {
     @Transactional
     public void update(Long id, PostResponseDto.Request dto) {
         Post post = postRepository.findByPostId(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
+                new BadRequestException("해당 게시글이 존재하지 않습니다. id=" + id));
 
 //            post.update(dto.getTitle(), dto.getContent());
         post.update(dto.getTitle(), dto.getContent(), dto.getTag(), dto.getCategory(), dto.getPic());
@@ -63,8 +71,7 @@ public class PostService<Int, Optimal> {
     /* DELETE */
     @Transactional
     public void delete(Long id) {
-        Post post = postRepository.findByPostId(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
+        Post post = postRepository.findByPostId(id).orElseThrow(()-> new BadRequestException("해당 게시글이 존재하지 않습니다. id=" + id));
 
         postRepository.delete(post);
     }
@@ -82,14 +89,20 @@ public class PostService<Int, Optimal> {
         return postRepository.findAll(pageable);
     }
 
-    public PostResponseDto.Response read(Long postId) {
-        Post post = postRepository.findByPostId(postId).orElseThrow(()->new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id: " + postId));
-        return new PostResponseDto.Response(post);
-    }
+//    public PostResponseDto.Response read(Long postId) {
+//        Post post = postRepository.findByPostId(postId);
+//        return new PostResponseDto.Response(post);
+//    }
 
-    public List<Post> getPostListByCategory(String category) {
+    public List<PostResponseDto.readPostList> getPostListByCategory(String category) {
         List<Post> postList = postRepository.findAllByCategory(category);
-        return postList;
+        List<PostResponseDto.readPostList> response = new ArrayList<>();
+        for(Post post :postList){
+            int countLike = postLikeService.countLike(post);
+            int countComment = commentService.countComment(post);
+             response.add(new PostResponseDto.readPostList(post, countLike, countComment));
+        }
+        return response;
     }
 
 //    public List<Post> getPostListByView(int view) {
@@ -100,9 +113,10 @@ public class PostService<Int, Optimal> {
 //        return postRepository.findAllByView(view);
 //    }
 
-    public Optional<Post> getPostList(Long postId) {
-        Optional<Post> postLists = postRepository.findByPostId(postId);
-        return postLists;
+    public Post getPost(Long postId) {
+        Post post = postRepository.findByPostId(postId).orElseThrow(()->new BadRequestException("해당 게시글이 존재하지 않습니다. id=" + postId));
+
+        return post;
     }
 
 

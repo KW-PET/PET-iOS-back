@@ -9,6 +9,14 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(value = "select c from Comment c where c.post.postId = ?1")
     List<Comment> findAllByPostId(Long post);
+
+    int countByPost(Post post);
+
+    @Query(value = "select c from Comment c where c.post.postId = ?1 and c.isParent=true")
+    List<Comment> findAllCommentParent(Long postId);
+
+    @Query(value = "select c from Comment c where c.parentCommentId = ?1 and c.isParent=false")
+    List<Comment> findAllByParentComment(Long commentId);
     /* 게시글 댓글 목록 가져오기 */
 //    List<Comment> getCommentByPostOrderById(Post post);
 }

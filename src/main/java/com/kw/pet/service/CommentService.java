@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,44 +27,74 @@ public class CommentService {
 
     /* CREATE */
     @Transactional
-    public Long save(CommentResponseDto.createComment dto, String userUuid) {
+    public Long parentSave(CommentResponseDto.parentComment dto, String userUuid) {
         User user = userRepository.findByUuid(userUuid);
         Post post = postRepository.findByPostId(dto.getPost()).orElseThrow(() ->
                 new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다. " + dto.getPost()));
-        Comment comment = new Comment(dto.getComment(), post, user);
+        Comment comment = Comment.builder()
+                .isParent(true)
+                .comment(dto.getComment())
+                .post(post)
+                .user(user).build();
 
         commentRepository.save(comment);
-
-        return comment.getCommentId();
+        return post.getPostId();
     }
+
+    @Transactional
+    public Long childSave(CommentResponseDto.childComment dto, String userUuid) {
+        User user = userRepository.findByUuid(userUuid);
+        Post post = postRepository.findByPostId(dto.getPost()).orElseThrow(() ->
+                new IllegalArgumentException("댓글 쓰기 실패: 해당 게시글이 존재하지 않습니다. " + dto.getPost()));
+        Comment comment = Comment.builder()
+                .isParent(false)
+                .comment(dto.getComment())
+                .parentCommentId(dto.getParentId())
+                .post(post)
+                .user(user).build();
+
+        commentRepository.save(comment);
+        return post.getPostId();
+    }
+
+
 
     /* READ */
     @Transactional(readOnly = true)
-    public ResponseMapping.PostandComm findAll(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id: " + id));
-        List<Comment> comments = commentRepository.findAllByPostId(post.getPostId());
+    public List<CommentResponseDto.Response> findAll(Post post) {
+        List<Comment> comments = commentRepository.findAllCommentParent(post.getPostId());
+        List<CommentResponseDto.Response> response = new ArrayList<>();
+        for(Comment comment : comments){
+            List<Comment> childComments = commentRepository.findAllByParentComment(comment.getCommentId());
+            response.add(new CommentResponseDto.Response(comment, childComments));
+        }
 //        return comments;
-        List<CommentResponseDto.Response> commentList = comments.stream().map(CommentResponseDto.Response::new).collect(Collectors.toList());
-        ResponseMapping.PostandComm response = new ResponseMapping.PostandComm(post, commentList);
+//        List<CommentResponseDto.Response> commentList = comments.stream().map(CommentResponseDto.Response::new).collect(Collectors.toList());
+//        ResponseMapping.PostandComm response = new ResponseMapping.PostandComm(post, commentList);
         return response;
     }
 
-    /* UPDATE */
-    @Transactional
-    public void update(Long id, CommentResponseDto.Request dto) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. " + id));
+//    /* UPDATE */
+//    @Transactional
+//    public void update(Long id, CommentResponseDto.Request dto) {
+//        Comment comment = commentRepository.findById(id).orElseThrow(() ->
+//                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. " + id));
+//
+//        comment.update(dto.getComment());
+//    }
+//
+//    /* DELETE */
+//    @Transactional
+//    public void delete(Long id) {
+//        Comment comment = commentRepository.findById(id).orElseThrow(() ->
+//                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + id));
+//
+//        commentRepository.delete(comment);
+//    }
 
-        comment.update(dto.getComment());
+    public int countComment(Post post) {
+        return commentRepository.countByPost(post);
     }
 
-    /* DELETE */
-    @Transactional
-    public void delete(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + id));
 
-        commentRepository.delete(comment);
-    }
 }

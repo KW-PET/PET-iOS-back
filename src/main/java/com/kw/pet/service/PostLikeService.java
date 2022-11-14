@@ -16,15 +16,29 @@ import java.util.List;
 import java.util.Objects;
 
 
-@Transactional
+//@Transactional
 @RequiredArgsConstructor
 @Service
 public class PostLikeService {
     private final PostLikeRepository postlikeRepository;
     private final PostRepository postRepository;
 
-    public boolean addLike(User user, Long postId) {
+    public String addLike(User user, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow();
+
+        try{
+            PostLike postLike = postlikeRepository.findByPost(post);
+            if(postLike!=null){
+                postlikeRepository.delete(postLike);
+                return "unlike";
+            }else{
+                PostLike newLike= new PostLike(post, user);
+                postlikeRepository.save(newLike);
+                return "like";
+            }
+        } catch (Exception e){
+            System.out.println("exception");
+        }
 
 //        //중복 좋아요 방지
 //        if (isNotAlreadyLike(user, post)) {
@@ -32,14 +46,11 @@ public class PostLikeService {
 //            return true;
 //        }
 //        중복 좋아요 방지
-        if (isNotAlreadyLike(postId, user)) {
-            postlikeRepository.save(new PostLike(post, user));
-            return true;
-        }
-
-
-        return false;
-
+//        if (isNotAlreadyLike(postId, user)) {
+//            postlikeRepository.save(new PostLike(post, user));
+//            return true;
+//        }
+        return null;
     }
 
     //    public void cancelLike(User user, Long postId) {
@@ -48,11 +59,11 @@ public class PostLikeService {
 //        postlikeRepository.delete(postlike);
 //        postlikeRepository.delete(new PostLike());
 //    }
-    public void cancelLike(User user, Long postId) {
-        Post post = postRepository.findByPostId(postId).orElseThrow();
-        PostLike postlike = postlikeRepository.findByUserAndPost(postId, user).orElseThrow();
-        postlikeRepository.delete(postlike);
-    }
+//    public void cancelLike(User user, Long postId) {
+//        Post post = postRepository.findByPostId(postId).orElseThrow();
+//        PostLike postlike = postlikeRepository.findByUserAndPost(postId, user).orElseThrow();
+//        postlikeRepository.delete(postlike);
+//    }
 
 
 //일단 보류
@@ -93,4 +104,7 @@ public class PostLikeService {
     }
 
 
+    public int countLike(Post post) {
+        return postlikeRepository.countByPost(post);
+    }
 }
