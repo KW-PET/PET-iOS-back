@@ -1,79 +1,75 @@
 package com.kw.pet.controller;
 
-import com.kw.pet.config.BaseResponse;
 import com.kw.pet.domain.place.Place;
 import com.kw.pet.domain.place.PlaceRepository;
-import com.kw.pet.dto.PlaceResponseDto;
+import com.kw.pet.domain.placeLike.PlaceLike;
+import com.kw.pet.domain.placeLike.PlaceLikeRepository;
+import com.kw.pet.domain.user.UserRepository;
+import com.kw.pet.dto.*;
+import com.kw.pet.service.PlaceService;
+import lombok.RequiredArgsConstructor;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 public class PlaceController {
 
-    @Autowired
-    private PlaceRepository placeRepository;
+    private final PlaceService placeService;
 
-    public PlaceController(PlaceRepository placeRepository) {this.placeRepository = placeRepository;}
+    @Autowired
+    PlaceLikeRepository placeLikeRepository;
+    @Autowired
+    PlaceRepository placeRepository;
+    @Autowired
+    UserRepository userRepository;
 
     //장소 정보 가져오기 sort(1: 거리 순, 2: 추천 순)
+    //TODO
+    //authorization header로 user찾아서 likestatus확인해줘야함.
     @PostMapping("/place")
-    public BaseResponse<PlaceResponseDto> test1(@RequestBody PlaceResponseDto place){
-        Place placeDTO = new Place();
-        if (place.getSort() == 1){
-        }else{
+    public ResponseEntity place(@RequestBody PlaceResponseDto.Request placeResponseDto) throws IOException, ParseException {
+        if (placeResponseDto.getSort() == 1) {
+            HashMap<String, Double> lonLatToTm = placeService.calculatedLonLat(placeResponseDto.getLon(), placeResponseDto.getLat());
+            List<PlaceDistanceAndLikecnt> placeList = placeService.getPlaceListByXposYpos(lonLatToTm.get("xpos"), lonLatToTm.get("ypos"));
 
+            return ResponseEntity.ok(new JsonResponse(true, 200, "place", placeList));
         }
-        return new BaseResponse<>(place);
+        else if(placeResponseDto.getSort() == 2){
+            HashMap<String, Double> lonLatToTm = placeService.calculatedLonLat(placeResponseDto.getLon(), placeResponseDto.getLat());
+            List<PlaceDistanceAndLikecnt> placeList = placeService.getPlaceListByCount(lonLatToTm.get("xpos"), lonLatToTm.get("ypos"));
+
+            return ResponseEntity.ok(new JsonResponse(true, 200, "place", placeList));
+        }
+        else {
+            return ResponseEntity.badRequest().body(new ErrorResponse(false, 404, "sort 값이 없습니다."));
+        }
+
     }
-//    /**
-//     * 두 지점간의 거리 계산
-//     *
-//     * @param lat1 지점 1 위도
-//     * @param lon1 지점 1 경도
-//     * @param lat2 지점 2 위도
-//     * @param lon2 지점 2 경도
-//     * @param unit 거리 표출단위
-//     * @return
-//     */
-//    public static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
-//
-//        double theta = lon1 - lon2;
-//        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
-//
-//        dist = Math.acos(dist);
-//        dist = rad2deg(dist);
-//        dist = dist * 60 * 1.1515;
-//
-//        if (unit == "kilometer") {
-//            dist = dist * 1.609344;
-//        } else if(unit == "meter"){
-//            dist = dist * 1609.344;
-//        }
-//
-//        return (dist);
-//    }
-//
-//
-//    // This function converts decimal degrees to radians
-//    private static double deg2rad(double deg) {
-//        return (deg * Math.PI / 180.0);
-//    }
-//
-//    // This function converts radians to decimal degrees
-//    private static double rad2deg(double rad) {
-//        return (rad * 180 / Math.PI);
-//    }
-//    public BaseResponse<PlaceDto> joinPlace(@RequestBody PlaceDto place){
-//        Place placeDTO = new Place();
-//        placeDTO.setName(placeRepository.findByPlaceid(1));
-//        System.out.println("1번 장소" + placeDTO);
-//
-//        return new BaseResponse<>(place);
-//    }
+
+    @PostMapping("/place/category")
+    public ResponseEntity placeCategory(@RequestBody PlaceResponseDto.Request placeResponseDto) throws IOException, ParseException {
+        HashMap<String, Double> lonLatToTm = placeService.calculatedLonLat(placeResponseDto.getLon(), placeResponseDto.getLat());
+        List<PlaceResponseDto> categoryFilteredPlace = placeService.getPlaceListByCategory(lonLatToTm.get("xpos"), lonLatToTm.get("ypos"), placeResponseDto.getCategory());
+        return ResponseEntity.ok(new JsonResponse(true, 200, "placeCategory", categoryFilteredPlace));
+    }
+
+    //TODO
+    //authorization header로 user찾아서 likestatus확인해줘야함.
+    @PostMapping("/place/like")
+    public ResponseEntity placeLike(@RequestBody PlaceLikeResponseDto placeLikeResponseDto) throws IOException, ParseException {
+        PlaceLike placeLike = PlaceLike.builder()
+                .place(placeRepository.findByPlaceid((placeLikeResponseDto.getPlace_id())))
+                .user(userRepository.findByUserId(placeLikeResponseDto.getUser_id()))
+                .build();
+        PlaceLike newPlaceLike = placeLikeRepository.save(placeLike);
+
+        return ResponseEntity.ok(new JsonResponse(true, 200, "placeLike", newPlaceLike.getPlacelikeid()));
+    }
 }

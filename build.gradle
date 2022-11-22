@@ -36,8 +36,9 @@ dependencies {
 //	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.5.RELEASE'
 	implementation 'com.google.code.gson:gson:2.9.0'
-//	implementation group : 'org.javassist', name:'javassist', version:'3.15.0-GA'
+	implementation group : 'org.javassist', name:'javassist', version:'3.15.0-GA'
 	implementation("com.fasterxml.jackson.datatype:jackson-datatype-hibernate5")
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 }
 
 tasks.named('test') {
