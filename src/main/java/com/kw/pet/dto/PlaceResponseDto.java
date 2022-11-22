@@ -1,14 +1,19 @@
 package com.kw.pet.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
-@Builder
 public class PlaceResponseDto {
-    private Integer placeid;
-    private Double lon;
-    private Double lat;
-    private Integer sort;
-    private String category;
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Request {
+        private Double lon;
+        private Double lat;
+        private Integer sort;
+        private String category;
+    }
+
+
 }
