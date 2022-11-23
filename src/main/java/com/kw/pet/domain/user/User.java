@@ -24,7 +24,7 @@ public class User extends BaseTime {
     private String name;
     private String nickname;
     private String email;
-    private String token;
+    private String token; //access_token
     private String fcm_token;
 
     @Builder

@@ -1,7 +1,6 @@
 package com.kw.pet.service;
 
 
-import com.kw.pet.config.BaseException;
 import com.kw.pet.config.exception.BadRequestException;
 import com.kw.pet.dto.PostResponseDto;
 import com.kw.pet.domain.post.Post;
@@ -14,11 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static com.kw.pet.config.BaseResponseStatus.RESPONSE_ERROR;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -104,6 +101,12 @@ public class PostService<Int, Optimal> {
         }
         return response;
     }
+//내가 작성한 post 조회
+//    public List<PostResponseDto.readPostList> getPostListByUser(int user) {
+//        List<Post> postList = postRepository.findAllByUser(user);
+//        List<PostResponseDto.readPostList> response = new ArrayList<>();
+//        return response;
+//    }
 
 //    public List<Post> getPostListByView(int view) {
 //        List<Post> postList = postRepository.findAllByView(view);
@@ -115,10 +118,19 @@ public class PostService<Int, Optimal> {
 
     public Post getPost(Long postId) {
         Post post = postRepository.findByPostId(postId).orElseThrow(()->new BadRequestException("해당 게시글이 존재하지 않습니다. id=" + postId));
-
         return post;
     }
 
+//    @Transactional
+//    public Post getMypost(String uuid) {
+//        Post post = postRepository.findByUserId(uuid).orElseThrow(()->new BadRequestException("해당 유저가 작성한 게시글이 존재하지 않습니다"));
+//        return post;
+//    }
+
+//    public Post getMyPost(HttpServletRequest request) {
+//        Post post = postRepository.findByUuid(request).orElseThrow(()->new BadRequestException("해당 유저가 작성한 게시글이 존재하지 않습니다"));
+//        return post;
+//    }
 
 
 //    public List<Post> getPostList(Long postId) {

@@ -38,7 +38,7 @@ public class CommentController {
     public ResponseEntity childCommentSave(@RequestBody CommentResponseDto.childComment dto, HttpServletRequest request) {
         String userUuid = jwtService.resolveToken(request);
         Long postId = commentService.childSave(dto, userUuid);
-        return ResponseEntity.ok(new JsonResponse(true, 200, "comment save", postId));
+        return ResponseEntity.ok(new JsonResponse(true, 200, "reply save", postId));
     }
 
     /* READ */

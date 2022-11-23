@@ -34,41 +34,6 @@ public class PostLikeController {
     private final JwtService jwtService;
 
 
-    //일단 보류
-//    //좋아요 세기
-////    @GetMapping("/like/{postId}")
-////    public ResponseEntity getLikeCount(@PathVariable Long postId, @LoginSecurity User user) {
-////            List<String> response = postlikeService.count(postId, user);
-////            return ResponseEntity.ok(new JsonResponse(true, 200, "postlikecount", response));
-////
-////    }
-//
-//    @GetMapping("/like/{postId}")
-//    public ResponseEntity getLikeCount(@PathVariable Long postId, HttpServletRequest request) {
-//        List<String> response = postlikeService.count(postId, user);
-//        return ResponseEntity.ok(new JsonResponse(true, 200, "postlikecount", response));
-//
-//    }
-
-    //좋아요 취소
-//    @DeleteMapping("/like/{postId}")
-//    public ResponseEntity<String> cancelLike(@LoginSecurity User user,
-//                                             @PathVariable Long postId) {
-//        if (user != null) {
-//            postlikeService.cancelLike(user, postId);
-//        }
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-
-//    @DeleteMapping("/like/{postId}")
-//    public ResponseEntity<String> cancelLike(@PathVariable Long postId, HttpServletRequest request) {
-//        String userUuid = jwtService.resolveToken(request);
-//        User user = userService.getUser(userUuid);
-//        if (user != null) {
-//            postlikeService.cancelLike(user, postId);
-//        }
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 
     //좋아요 등록
     @PostMapping("/like/{postId}")
@@ -84,15 +49,5 @@ public class PostLikeController {
 //        return result ?
 //                new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-//    @PostMapping("/like/{postId}")
-//    public ResponseEntity<String> addLike(@LoginSecurity User user,
-//                                          @PathVariable Long postId) {
-//        boolean result = false;
-//
-//        if (Objects.nonNull(user))
-//            result = postlikeService.addLike(user, postId);
-//
-//        return result ?
-//                new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
+
 }

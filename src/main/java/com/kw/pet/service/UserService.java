@@ -23,6 +23,11 @@ public class UserService {
         return user;
     }
 
+    public User getUserIdx(int userID) {
+        User user = userRepository.findByUserId(userID);
+        return user;
+    }
+
     public void updateNickname(String nickname, String userUuid) {
         User user = userRepository.findByUuid(userUuid);
         user.setNickname(nickname);
