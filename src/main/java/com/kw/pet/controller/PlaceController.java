@@ -56,7 +56,7 @@ public class PlaceController {
     @PostMapping("/place/category")
     public ResponseEntity placeCategory(@RequestBody PlaceResponseDto.Request placeResponseDto) throws IOException, ParseException {
         HashMap<String, Double> lonLatToTm = placeService.calculatedLonLat(placeResponseDto.getLon(), placeResponseDto.getLat());
-        List<PlaceResponseDto> categoryFilteredPlace = placeService.getPlaceListByCategory(lonLatToTm.get("xpos"), lonLatToTm.get("ypos"), placeResponseDto.getCategory());
+        List<PlaceDistanceAndLikecnt> categoryFilteredPlace = placeService.getPlaceListByCategory(lonLatToTm.get("xpos"), lonLatToTm.get("ypos"), placeResponseDto.getCategory());
         return ResponseEntity.ok(new JsonResponse(true, 200, "placeCategory", categoryFilteredPlace));
     }
 
