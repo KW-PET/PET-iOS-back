@@ -70,8 +70,8 @@ public class PlaceService {
         return placeList;
     }
 
-    public List<PlaceResponseDto> getPlaceListByCategory(Double xpos, Double ypos, String category){
-        List<PlaceResponseDto> placeList = placeRepository.findAllByCategory(xpos, ypos, category);
+    public List<PlaceDistanceAndLikecnt> getPlaceListByCategory(Double xpos, Double ypos, String category){
+        List<PlaceDistanceAndLikecnt> placeList = placeRepository.findAllByCategory(xpos, ypos, category);
         return placeList;
     }
 
