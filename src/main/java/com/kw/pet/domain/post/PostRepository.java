@@ -16,6 +16,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Optional<Post> findByPostId(Long postId);
 
+    Post findByUuid(String userUUID);
+
 //    Optional<Post> findByUserId(String uuid);
     //Optional<Post> findByUuid(HttpServletRequest request);
 

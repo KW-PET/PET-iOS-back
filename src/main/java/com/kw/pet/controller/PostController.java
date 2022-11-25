@@ -114,19 +114,19 @@ public class PostController {
 //    }
 
     //내가 쓴 글 조회
-//    @GetMapping("/mypost")
-//    public ResponseEntity<JsonResponse> readmy(HttpServletRequest request){
-//        String userUuid = jwtService.resolveToken(request);
-//        System.out.println("userUuid : "+userUuid);
-//        Post post = postService.getMyPost(request);
-//        int countLike = postLikeService.countLike(post);
-//        int countComment = commentService.countComment(post);
-//        List<CommentResponseDto.Response> comments = commentService.findAll(post);
-//
-//        PostResponseDto.readPost response = new PostResponseDto.readPost(post, countLike, countComment, comments);
-//
-//        return ResponseEntity.ok(new JsonResponse(true, 200, "readMyPost", response));
-//    }
+    @GetMapping("/mypost")
+    public ResponseEntity<JsonResponse> readmy(HttpServletRequest request){
+        String userUuid = jwtService.resolveToken(request);
+        System.out.println("userUuid : "+userUuid);
+        Post post = postService.getMyPost(userUuid);
+        int countLike = postLikeService.countLike(post);
+        int countComment = commentService.countComment(post);
+        List<CommentResponseDto.Response> comments = commentService.findAll(post);
+
+        PostResponseDto.readPost response = new PostResponseDto.readPost(post, countLike, countComment, comments);
+
+        return ResponseEntity.ok(new JsonResponse(true, 200, "readMyPost", response));
+    }
 
 
 }

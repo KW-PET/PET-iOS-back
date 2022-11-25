@@ -13,9 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -127,10 +127,10 @@ public class PostService<Int, Optimal> {
 //        return post;
 //    }
 
-//    public Post getMyPost(HttpServletRequest request) {
-//        Post post = postRepository.findByUuid(request).orElseThrow(()->new BadRequestException("해당 유저가 작성한 게시글이 존재하지 않습니다"));
-//        return post;
-//    }
+    public Post getMyPost(String userUUID) {
+        Post post = postRepository.findByUuid(userUUID);
+        return post;
+    }
 
 
 //    public List<Post> getPostList(Long postId) {
