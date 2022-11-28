@@ -97,15 +97,7 @@ public class UserController {
 //            return new BaseResponse<>(exception.getStatus());
 //        }
 //    }
-//내가 쓴 글 조회
-//    @GetMapping("/my/post")
-//    public Object myPost(@RequestBody PostResponseDto.Request dto, HttpServletRequest request){
-//        String userUuid = jwtService.resolveToken(request);
-//        System.out.println("user의 post");
-//        List<PostResponseDto.readPostList> postList = postService.getPostListByCategory(dto.getCategory());
-//        return ResponseEntity.ok(new JsonResponse(true, 200, "user가 작성한 post", postList));
-//
-//    }
+
 
     //닉네임 설정
     @PostMapping("/updateNickname")

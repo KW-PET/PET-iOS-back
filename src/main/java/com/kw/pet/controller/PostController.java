@@ -103,30 +103,17 @@ public class PostController {
         return ResponseEntity.ok(new JsonResponse(true, 200, "deletePost", postId));
     }
 
-
-//    //내가 쓴 글 조회
-//    @GetMapping("/my/post/{userIdx}")
-//    public ResponseEntity<JsonResponse> readmy(@PathVariable int userIdx) {
-//        System.out.println("user의 post");
-//        //List<PostResponseDto.readPostList> postList = postService.getPostListByUser(userId);
-//        Post post = postService.getMypost(userIdx);
-//        return ResponseEntity.ok(new JsonResponse(true, 200, "user가 작성한 post", userUuid));
-//    }
-
     //내가 쓴 글 조회
     @GetMapping("/mypost")
-    public ResponseEntity<JsonResponse> readmy(HttpServletRequest request){
+    public Object myPost(HttpServletRequest request){
         String userUuid = jwtService.resolveToken(request);
-        System.out.println("userUuid : "+userUuid);
-        Post post = postService.getMyPost(userUuid);
-        int countLike = postLikeService.countLike(post);
-        int countComment = commentService.countComment(post);
-        List<CommentResponseDto.Response> comments = commentService.findAll(post);
-
-        PostResponseDto.readPost response = new PostResponseDto.readPost(post, countLike, countComment, comments);
-
-        return ResponseEntity.ok(new JsonResponse(true, 200, "readMyPost", response));
+        System.out.println("user의 post");
+        List<PostResponseDto.readPostList> postList = postService.getPostListByUser(userUuid);
+//        List<CommentResponseDto.Response> comments = commentService.getCommentListByUser(userUuid);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "해당 user가 작성한 post", postList));
     }
+
+
 
 
 }

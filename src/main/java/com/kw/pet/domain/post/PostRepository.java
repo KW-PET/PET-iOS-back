@@ -16,7 +16,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Optional<Post> findByPostId(Long postId);
 
-    Post findByUuid(String userUUID);
 
 //    Optional<Post> findByUserId(String uuid);
     //Optional<Post> findByUuid(HttpServletRequest request);
@@ -31,8 +30,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("update Post p set p.view = p.view + 1 where p.postId = :postId")
     int updateView(Long postId);
 
-//    @Query(value = "select p from Post p where p.user = ?1")
-//    List<Post> findAllByUser(int userIdx);
+    @Query(value = "select p from Post p where p.user.uuid = ?1")
+    List<Post> findAllByUser(String userUuid);
 
 //
 //    Page<Post> findByTitleContaining(String keyword, Pageable pageable);
