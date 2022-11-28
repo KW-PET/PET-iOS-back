@@ -2,6 +2,7 @@ package com.kw.pet.service;
 
 
 import com.kw.pet.config.exception.BadRequestException;
+import com.kw.pet.dto.CommentResponseDto;
 import com.kw.pet.dto.PostResponseDto;
 import com.kw.pet.domain.post.Post;
 import com.kw.pet.domain.post.PostRepository;
@@ -15,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -102,11 +102,16 @@ public class PostService<Int, Optimal> {
         return response;
     }
 //내가 작성한 post 조회
-//    public List<PostResponseDto.readPostList> getPostListByUser(int user) {
-//        List<Post> postList = postRepository.findAllByUser(user);
-//        List<PostResponseDto.readPostList> response = new ArrayList<>();
-//        return response;
-//    }
+    public List<PostResponseDto.readPostList> getPostListByUser(String user) {
+        List<Post> postList = postRepository.findAllByUser(user);
+        List<PostResponseDto.readPostList> response = new ArrayList<>();
+        for(Post post :postList){
+            int countLike = postLikeService.countLike(post);
+            int countComment = commentService.countComment(post);
+            response.add(new PostResponseDto.readPostList(post, countLike, countComment));
+        }
+        return response;
+    }
 
 //    public List<Post> getPostListByView(int view) {
 //        List<Post> postList = postRepository.findAllByView(view);
@@ -121,22 +126,7 @@ public class PostService<Int, Optimal> {
         return post;
     }
 
-//    @Transactional
-//    public Post getMypost(String uuid) {
-//        Post post = postRepository.findByUserId(uuid).orElseThrow(()->new BadRequestException("해당 유저가 작성한 게시글이 존재하지 않습니다"));
-//        return post;
-//    }
 
-    public Post getMyPost(String userUUID) {
-        Post post = postRepository.findByUuid(userUUID);
-        return post;
-    }
-
-
-//    public List<Post> getPostList(Long postId) {
-//        List<Post> postLists = postRepository.findALLByPostId(postId);
-//        return postLists;
-//    }
 
 
 //    /* search */

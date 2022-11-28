@@ -7,6 +7,7 @@ import com.kw.pet.domain.post.PostRepository;
 import com.kw.pet.domain.user.User;
 import com.kw.pet.domain.user.UserRepository;
 import com.kw.pet.dto.CommentResponseDto;
+import com.kw.pet.dto.PostResponseDto;
 import com.kw.pet.dto.ResponseMapping;
 import com.kw.pet.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +74,16 @@ public class CommentService {
 //        ResponseMapping.PostandComm response = new ResponseMapping.PostandComm(post, commentList);
         return response;
     }
+
+//    public List<CommentResponseDto.Response> getCommentListByUser(String user) {
+//        List<Comment> comments = commentRepository.findAllByUser(user);
+//        List<CommentResponseDto.Response> response = new ArrayList<>();
+//        for(Comment comment : comments){
+//            List<Comment> childComments = commentRepository.findAllByParentComment(comment.getCommentId());
+//            response.add(new CommentResponseDto.Response(comment, childComments));
+//        }
+//        return response;
+//    }
 
 //    /* UPDATE */
 //    @Transactional
