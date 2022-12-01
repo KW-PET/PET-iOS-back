@@ -38,13 +38,7 @@ public class Comment extends BaseTime {
     private User user; // 작성자
 
 
-//    @Builder
-//    public Comment(Long commentId, String comment, Post post, User user) {
-//        this.commentId = commentId;
-//        this.comment = comment;
-//        this.post = post;
-//        this.user = user;
-//    }
+
 
 
     @Builder

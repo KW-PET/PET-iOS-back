@@ -86,10 +86,6 @@ public class PostService<Int, Optimal> {
         return postRepository.findAll(pageable);
     }
 
-//    public PostResponseDto.Response read(Long postId) {
-//        Post post = postRepository.findByPostId(postId);
-//        return new PostResponseDto.Response(post);
-//    }
 
     public List<PostResponseDto.readPostList> getPostListByCategory(String category) {
         List<Post> postList = postRepository.findAllByCategory(category);
@@ -113,13 +109,7 @@ public class PostService<Int, Optimal> {
         return response;
     }
 
-//    public List<Post> getPostListByView(int view) {
-//        List<Post> postList = postRepository.findAllByView(view);
-//        return postList;
-//    }
-//    public List<Post> getPostListByView(int view) {
-//        return postRepository.findAllByView(view);
-//    }
+
 
     public Post getPost(Long postId) {
         Post post = postRepository.findByPostId(postId).orElseThrow(()->new BadRequestException("해당 게시글이 존재하지 않습니다. id=" + postId));
@@ -127,12 +117,4 @@ public class PostService<Int, Optimal> {
     }
 
 
-
-
-//    /* search */
-//    @Transactional(readOnly = true)
-//    public Page<Post> search(String keyword, Pageable pageable) {
-//        Page<Post> postsList = postRepository.findByTitleContaining(keyword, pageable);
-//        return postsList;
-//    }
 }

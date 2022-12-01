@@ -18,8 +18,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query(value = "select c from Comment c where c.parentCommentId = ?1 and c.isParent=false")
     List<Comment> findAllByParentComment(Long commentId);
 
-//    @Query(value = "select c from Comment c and Post p where p.user.uuid = ?1")
-//    List<Comment> findAllByUser(String userUuid);
-    /* 게시글 댓글 목록 가져오기 */
-//    List<Comment> getCommentByPostOrderById(Post post);
 }

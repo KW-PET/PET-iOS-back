@@ -31,45 +31,6 @@ public class OAuthController {
     private final OAuthService oauthService;
     private final JwtService jwtService;
 
-    //code 넘겨받기
-    //localhost:8080/kakao/login
-//    @GetMapping("/login")
-//    public ResponseEntity<JsonResponse> kakaoCallback(@RequestParam String code) throws BaseException {
-//
-////        User user = new User();
-//
-//        System.out.println("code : " + code);
-//        String access_Token = oauthService.getKakaoAccessToken(code);
-////        System.out.println("controller   : " + access_Token);
-//
-//        HashMap<String, Object> userInfo =  oauthService.getUserInfo(access_Token);
-////        System.out.println("login Controller : " + userInfo);
-//
-//        String uuid = (String) userInfo.get("uuid");
-//
-////        //TODO : OAuthService
-////        //userRepository에 uuid가 있는지 확인하고, 있으면 넘기고 없으면 저장
-////        User user = userRepository.findByUuid(uuid);
-////        if(user == null) {
-////            //insert
-////            user.setUuid((String) userInfo.get("uuid"));
-////            user.setName((String) userInfo.get("nickname"));
-////            user.setToken(access_Token);
-////            userRepository.save(user);
-////        }else{
-////            //update
-////            user.setToken(access_Token);
-////            userRepository.save(user);
-////        }
-//        String token = jwtService.createToken(uuid);
-//        return ResponseEntity.ok(new JsonResponse(true, 200, "kakao", token));
-//
-//        //    클라이언트의 이메일이 존재할 때 세션에 해당 이메일과 토큰 등록
-////        if (userInfo.get("email") != null) {
-////            session.setAttribute("userId", userInfo.get("email"));
-////            session.setAttribute("access_Token", access_Token);
-////        }
-//    }
 
     //access_token 받아오기
     @GetMapping("/login")

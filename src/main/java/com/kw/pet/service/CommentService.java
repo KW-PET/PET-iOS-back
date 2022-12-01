@@ -69,39 +69,10 @@ public class CommentService {
             List<Comment> childComments = commentRepository.findAllByParentComment(comment.getCommentId());
             response.add(new CommentResponseDto.Response(comment, childComments));
         }
-//        return comments;
-//        List<CommentResponseDto.Response> commentList = comments.stream().map(CommentResponseDto.Response::new).collect(Collectors.toList());
-//        ResponseMapping.PostandComm response = new ResponseMapping.PostandComm(post, commentList);
+
         return response;
     }
 
-//    public List<CommentResponseDto.Response> getCommentListByUser(String user) {
-//        List<Comment> comments = commentRepository.findAllByUser(user);
-//        List<CommentResponseDto.Response> response = new ArrayList<>();
-//        for(Comment comment : comments){
-//            List<Comment> childComments = commentRepository.findAllByParentComment(comment.getCommentId());
-//            response.add(new CommentResponseDto.Response(comment, childComments));
-//        }
-//        return response;
-//    }
-
-//    /* UPDATE */
-//    @Transactional
-//    public void update(Long id, CommentResponseDto.Request dto) {
-//        Comment comment = commentRepository.findById(id).orElseThrow(() ->
-//                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. " + id));
-//
-//        comment.update(dto.getComment());
-//    }
-//
-//    /* DELETE */
-//    @Transactional
-//    public void delete(Long id) {
-//        Comment comment = commentRepository.findById(id).orElseThrow(() ->
-//                new IllegalArgumentException("해당 댓글이 존재하지 않습니다. id=" + id));
-//
-//        commentRepository.delete(comment);
-//    }
 
     public int countComment(Post post) {
         return commentRepository.countByPost(post);

@@ -59,45 +59,6 @@ public class UserController {
     }
 
 
-////uuid로 사용자 조회
-//    @GetMapping("/mypage/{userUuid}") //사용자조회 - 마이페이지로 변경
-//    public Object readUser(@PathVariable String userUuid){
-//        System.out.println("userID"+userUuid);
-//        try{
-//            User user = userService.getUser(userUuid);
-//            if(user == null ){
-//                System.out.println("해당 user는 회원가입되지 않은 유저입니다.");
-//                throw new BaseException(USERS_EMPTY_USER_ID);
-//            }
-//            System.out.println(user.getName());
-//            System.out.println("mypage 입장 성공");
-//            return ResponseEntity.ok(new JsonResponse(true, 200, "mypage 입장", user));
-//        }
-//        catch (BaseException exception){
-//            System.out.println("user오류");
-//            return new BaseResponse<>(exception.getStatus());
-//        }
-//    }
-//useridx로 사용자 조회
-//    @GetMapping("/user/{userIdx}") //사용자조회 - 마이페이지
-//    public Object userMypage(@PathVariable int userIdx){
-//        System.out.println("userID"+userIdx);
-//        try{
-//            User user = userService.getUserIdx(userIdx);
-//            if(user == null ){
-//                System.out.println("해당 user는 회원가입되지 않은 유저입니다.");
-//                throw new BaseException(USERS_EMPTY_USER_ID);
-//            }
-//            System.out.println(user.getName());
-//            System.out.println("user 정보 받아옴");
-//            return ResponseEntity.ok(new JsonResponse(true, 200, "user 정보 받아옴", user));
-//        }
-//        catch (BaseException exception){
-//            System.out.println("user오류");
-//            return new BaseResponse<>(exception.getStatus());
-//        }
-//    }
-
 
     //닉네임 설정
     @PostMapping("/updateNickname")

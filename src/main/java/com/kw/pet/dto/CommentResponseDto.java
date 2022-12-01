@@ -43,18 +43,7 @@ public class CommentResponseDto {
         private User user;
         private Post post;
 
-        /* Dto -> Entity */
-//        public Comment toEntity() {
-//            Comment comments = Comment.builder()
-//                    .commentId(id)
-//                    .comment(comment)
-//                    .user(user)
-//                    .post(post)
-//                    .build();
-//
-//            return comments;
-////        }
-//        }
+
     }
 
     /**
@@ -97,8 +86,7 @@ public class CommentResponseDto {
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate ;
         private String nickname;
-        //        private User user;
-//        private Long postId;
+
         /* Entity -> Dto*/
         public childResponse(Comment comment) {
             this.id = comment.getCommentId();

@@ -13,4 +13,12 @@ public class ResponseMapping {
         private Object post;
         private Object comment;
     }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Data
+    public static class UserandPet{
+        private Object user;
+        private Object pet;
+    }
 }
