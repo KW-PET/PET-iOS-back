@@ -60,6 +60,38 @@ public class PlaceService {
         return returnValue;
     }
 
+    public HashMap<String, Double> calculatedXposYpos(Double lon, Double lat) throws ParseException {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://dapi.kakao.com/v2/local/geo/transcoord.json";
+
+        HashMap<String, Double> returnValue = new HashMap<String, Double>();
+        HashMap<String, Object> result = new HashMap<String, Object>();
+
+        HttpHeaders header = new HttpHeaders();
+        header.set("Authorization", "KakaoAK d2f5c5d41f5b1e8ef33204e6eef4707d");
+        HttpEntity<String> entity = new HttpEntity<>(header);
+
+
+        UriComponents uri = UriComponentsBuilder.fromHttpUrl(url).queryParam("x", lon).queryParam("y", lat).queryParam("input_coord","TM" ).queryParam("output_coord", "WGS84").build();
+
+        ResponseEntity<String> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.GET, entity, String.class);
+
+        result.put("statusCode", resultMap.getStatusCodeValue()); //http status code를 확인
+        result.put("header", resultMap.getHeaders()); //헤더 정보 확인
+        result.put("body", resultMap.getBody()); //실제 데이터 정보 확인
+
+        JSONParser parser = new JSONParser();
+        JSONObject kakaoObject = (JSONObject) parser.parse(resultMap.getBody());
+        JSONArray documents = (JSONArray) kakaoObject.get("documents");
+        JSONObject document = (JSONObject) documents.get(0);
+        Double calculatedXpos = (Double) document.get("x");
+        Double calculatedYpos = (Double) document.get("y");
+
+        returnValue.put("xpos", calculatedXpos);
+        returnValue.put("ypos", calculatedYpos);
+        return returnValue;
+    }
+
     public List<PlaceDistanceAndLikecnt> getPlaceListByXposYpos(Double xpos, Double ypos){
         List<PlaceDistanceAndLikecnt> placeList = placeRepository.findAllByXposYpos(xpos, ypos);
         return placeList;
@@ -74,5 +106,4 @@ public class PlaceService {
         List<PlaceDistanceAndLikecnt> placeList = placeRepository.findAllByCategory(xpos, ypos, category);
         return placeList;
     }
-
 }
