@@ -72,4 +72,18 @@ public class PlaceController {
 
         return ResponseEntity.ok(new JsonResponse(true, 200, "placeLike", newPlaceLike.getPlacelikeid()));
     }
+
+    @GetMapping("/place/change")
+    public ResponseEntity placeChange() throws IOException{
+        List<Place> placeList = placeRepository.findAllByLonLatIsNull();
+        placeList.forEach(item -> {
+            try {
+                placeRepository.updateLonLat(placeService.calculatedXposYpos(item.getXpos(), item.getYpos()).get("xpos"), placeService.calculatedXposYpos(item.getXpos(), item.getYpos()).get("ypos"), item.getPlaceid());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return ResponseEntity.ok(new JsonResponse(true, 200, "placeChange", "변환 완료"));
+    }
 }

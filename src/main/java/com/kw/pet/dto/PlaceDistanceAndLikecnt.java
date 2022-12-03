@@ -3,9 +3,9 @@ package com.kw.pet.dto;
 public interface PlaceDistanceAndLikecnt {
     int getPlace_id();
 
-    Double getXpos();
+    Double getLat();
 
-    Double getYpos();
+    Double getLon();
 
     String getCategory();
 

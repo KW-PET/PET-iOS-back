@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Builder
 @Data
@@ -24,6 +23,10 @@ public class Place implements Serializable {
     private Double xpos;
 
     private Double ypos;
+
+    private Double lon;
+
+    private Double lat;
 
     private String category;
 
