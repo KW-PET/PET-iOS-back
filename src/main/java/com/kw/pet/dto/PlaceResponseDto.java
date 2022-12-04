@@ -13,6 +13,7 @@ public class PlaceResponseDto {
         private Double lat;
         private Integer sort;
         private String category;
+        private String name;
     }
 
 
