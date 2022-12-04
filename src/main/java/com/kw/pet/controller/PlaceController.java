@@ -73,6 +73,14 @@ public class PlaceController {
         return ResponseEntity.ok(new JsonResponse(true, 200, "placeLike", newPlaceLike.getPlacelikeid()));
     }
 
+    @PostMapping("/place/search")
+    public ResponseEntity placeSearch(@RequestBody PlaceResponseDto.Request placeResponseDto) throws IOException, ParseException {
+        HashMap<String, Double> lonLatToTm = placeService.calculatedLonLat(placeResponseDto.getLon(), placeResponseDto.getLat());
+        List<PlaceDistanceAndLikecnt> nameFilteredPlace = placeRepository.findAllByName(lonLatToTm.get("xpos"), lonLatToTm.get("ypos"), placeResponseDto.getName());
+        return ResponseEntity.ok(new JsonResponse(true, 200, "placeCategory", nameFilteredPlace));
+    }
+
+
     @GetMapping("/place/change")
     public ResponseEntity placeChange() throws IOException{
         List<Place> placeList = placeRepository.findAllByLonLatIsNull();
