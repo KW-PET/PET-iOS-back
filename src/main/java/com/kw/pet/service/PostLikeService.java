@@ -5,16 +5,10 @@ import com.kw.pet.domain.post.PostLike;
 import com.kw.pet.domain.post.PostLikeRepository;
 import com.kw.pet.domain.post.PostRepository;
 import com.kw.pet.domain.user.User;
-import com.kw.pet.dto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.relational.core.sql.Like;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 
 //@Transactional
@@ -46,17 +40,12 @@ public class PostLikeService {
         return null;
     }
 
-//    //내가 좋아요한 post 조회
-//    public List<PostResponseDto.readPostList> getLikePostByUser(String user) {
-//        List<Post> postList = postRepository.findLikeByUser(user);
-//        List<PostResponseDto.readPostList> response = new ArrayList<>();
-//        for(Post post :postList){
-//            int countLike = postLikeService.countLike(post);
-//            int countComment = commentService.countComment(post);
-//            response.add(new PostResponseDto.readPostList(post, countLike, countComment));
-//        }
-//        return response;
-//    }
+    //내가 좋아요한 post 조회
+    public List<PostLike> getLikePostByUser(String user) {
+        List<PostLike> postList = postlikeRepository.findLikeByUser(user);
+        //List<PostResponseDto.readPostList> response = new ArrayList<>();
+        return postList;
+    }
 
     private boolean isNotAlreadyLike(Long postId, User user) {
         return postlikeRepository.findByUserAndPost(postId, user).isEmpty();
@@ -66,4 +55,7 @@ public class PostLikeService {
     public int countLike(Post post) {
         return postlikeRepository.countByPost(post);
     }
+
+
+
 }
