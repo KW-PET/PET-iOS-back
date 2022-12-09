@@ -5,6 +5,7 @@ import com.kw.pet.domain.post.PostLike;
 import com.kw.pet.domain.post.PostLikeRepository;
 import com.kw.pet.domain.post.PostRepository;
 import com.kw.pet.domain.user.User;
+import com.kw.pet.dto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.relational.core.sql.Like;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ import java.util.Objects;
 public class PostLikeService {
     private final PostLikeRepository postlikeRepository;
     private final PostRepository postRepository;
+
+    private final CommentService commentService;
 
     public String addLike(User user, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow();
@@ -43,7 +46,17 @@ public class PostLikeService {
         return null;
     }
 
-
+//    //내가 좋아요한 post 조회
+//    public List<PostResponseDto.readPostList> getLikePostByUser(String user) {
+//        List<Post> postList = postRepository.findLikeByUser(user);
+//        List<PostResponseDto.readPostList> response = new ArrayList<>();
+//        for(Post post :postList){
+//            int countLike = postLikeService.countLike(post);
+//            int countComment = commentService.countComment(post);
+//            response.add(new PostResponseDto.readPostList(post, countLike, countComment));
+//        }
+//        return response;
+//    }
 
     private boolean isNotAlreadyLike(Long postId, User user) {
         return postlikeRepository.findByUserAndPost(postId, user).isEmpty();

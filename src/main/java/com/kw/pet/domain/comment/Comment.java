@@ -37,10 +37,6 @@ public class Comment extends BaseTime {
     @JoinColumn(name = "user_id")
     private User user; // 작성자
 
-
-
-
-
     @Builder
     public Comment(Long parentCommentId, Boolean isParent, String comment, Post post, User user) {
         this.parentCommentId = parentCommentId;

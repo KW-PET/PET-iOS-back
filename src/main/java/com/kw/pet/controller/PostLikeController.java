@@ -50,4 +50,13 @@ public class PostLikeController {
 //                new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    //내가 좋아요 한 글 보기
+//    @GetMapping("/likepost")
+//    public Object likePost(HttpServletRequest request){
+//        String userUuid = jwtService.resolveToken(request);
+//        System.out.println("user가 좋아요 한 post");
+//        List<PostResponseDto.readPostList> postList = postService.getPostListByUser(userUuid);
+//        return ResponseEntity.ok(new JsonResponse(true, 200, "해당 user가 좋아요한 post", postList));
+//    }
+
 }

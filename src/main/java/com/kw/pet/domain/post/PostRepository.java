@@ -31,6 +31,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query(value = "select p from Post p where p.user.uuid = ?1")
     List<Post> findAllByUser(String userUuid);
 
+    @Query(value = "select p from Post p where p.user.uuid = ?1 ")
+    List<Post> findLikeByUser(String userUuid);
+
 
 }
 
