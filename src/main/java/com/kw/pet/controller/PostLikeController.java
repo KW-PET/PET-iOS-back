@@ -1,28 +1,20 @@
 package com.kw.pet.controller;
 
-import com.kw.pet.domain.post.Post;
+import com.kw.pet.domain.post.PostLike;
 import com.kw.pet.domain.user.User;
-import com.kw.pet.dto.ErrorResponse;
 import com.kw.pet.config.JwtService;
 import com.kw.pet.dto.JsonResponse;
 import com.kw.pet.service.PostLikeService;
-import com.kw.pet.dto.PostLikeResponseDto;
-import com.kw.pet.dto.PostResponseDto;
 import com.kw.pet.service.UserService;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.spring.web.json.Json;
 //import com.kw.pet.config.LoginSecurity;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -48,6 +40,15 @@ public class PostLikeController {
         return ResponseEntity.ok(new JsonResponse(true, 200, "addLike", like));
 //        return result ?
 //                new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    //내가 좋아요 한 글 보기
+    @GetMapping("/likepost")
+    public Object likePost(HttpServletRequest request){
+        String userUuid = jwtService.resolveToken(request);
+        System.out.println("user가 좋아요 한 post");
+        List<PostLike> postList = postlikeService.getLikePostByUser(userUuid);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "해당 user가 좋아요한 post", postList));
     }
 
 }

@@ -13,4 +13,5 @@ public class ResponseMapping {
         private Object post;
         private Object comment;
     }
+
 }

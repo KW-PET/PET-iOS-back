@@ -1,11 +1,13 @@
 package com.kw.pet.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.kw.pet.domain.comment.Comment;
+import com.kw.pet.domain.pet.Pet;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,3 +20,6 @@ public class PetResponseDto {
     private String pic;
     private LocalDate start_date;
 }
+
+
+

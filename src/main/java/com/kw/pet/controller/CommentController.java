@@ -41,29 +41,4 @@ public class CommentController {
         return ResponseEntity.ok(new JsonResponse(true, 200, "reply save", postId));
     }
 
-    /* READ */
-//    @GetMapping("/comment/{postid}")
-//    public ResponseEntity<JsonResponse> read(@PathVariable Long postid) {
-//        ResponseMapping.PostandComm response =  commentService.findAll(postid);
-//        return ResponseEntity.ok(new JsonResponse(true, 200, "CommentRead", response));
-//    }
-
-    //댓글 수정 보류
-    /* UPDATE
-    @PutMapping("/edit/{commentid}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody CommentResponseDto.Request dto) {
-        commentService.update(id, dto);
-        return ResponseEntity.ok(id);
-    }
-
-     */
-
-
-//    //댓글 삭제 보류
-//    /* DELETE */
-//    @DeleteMapping("/{commentid}")
-//    public ResponseEntity delete(@PathVariable Long commentId) {
-//        commentService.delete(commentId);
-//        return ResponseEntity.ok(commentId);
-//    }
 }

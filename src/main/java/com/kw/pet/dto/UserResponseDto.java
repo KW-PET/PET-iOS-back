@@ -1,5 +1,7 @@
 package com.kw.pet.dto;
 
+import com.kw.pet.domain.post.Post;
+import com.kw.pet.domain.user.User;
 import lombok.*;
 
 import java.io.Serializable;
@@ -42,6 +44,7 @@ public class UserResponseDto {
     public static class updateNickname {
         private String nickname;
     }
+
 
 
 }

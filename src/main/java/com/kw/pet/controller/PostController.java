@@ -73,18 +73,12 @@ public class PostController {
     }
 
     //커뮤니티 목록 가져오기
-    @GetMapping("/community/{page}/{limit}")
+    @PostMapping("/community")
     public ResponseEntity community(@RequestBody PostResponseDto.community dto) {
         List<PostResponseDto.readPostList> postList = postService.getPostListByCategory(dto.getCategory());
         return ResponseEntity.ok(new JsonResponse(true, 200, "community", postList));
     }
 
-//    /* UPDATE */
-//    @PutMapping("/post/edit/{postId}")
-//    public ResponseEntity update(@PathVariable Long postId, @RequestBody PostResponseDto.Request dto) {
-//        postService.update(postId, dto);
-//        return ResponseEntity.ok(new JsonResponse(true, 200, "updatePost", postId));
-//    }
 
     /* UPDATE */
     @PutMapping("/post/edit/{postId}")

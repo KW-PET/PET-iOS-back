@@ -44,18 +44,10 @@ public class Post extends BaseTime {
     @Column(length = 500)
     private String pic;
 
-//    @Column(columnDefinition = "integer default 0")
-//    private Long likeCount;
-
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-////    @OrderBy("id asc") // 댓글 정렬
-////    @OneToMany(mappedBy = "post")
-//    private List<Comment> comment;
 
 
     @Builder

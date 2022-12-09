@@ -40,17 +40,6 @@ public class PostResponseDto {
         private String category;
         private String pic;
 
-        /* Dto -> Entity */
-//        public Post toEntity() {
-//            Post post = Post.builder()
-//                    .title(title)
-//                    .writer(writer)
-//                    .content(content)
-//                    //.view(0)
-//                    .user(user)
-//                    .build();
-//            return post;
-//        }
     }
 
     /**
