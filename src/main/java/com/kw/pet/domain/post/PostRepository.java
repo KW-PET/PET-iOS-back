@@ -19,7 +19,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
 
 
-    @Query(value = "select p from Post p where p.category = ?1")
+    @Query(value = "select p from Post p where p.category = ?1 order by p.postId desc")
     List<Post> findAllByCategory(String category);
 
 
@@ -28,7 +28,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("update Post p set p.view = p.view + 1 where p.postId = :postId")
     int updateView(Long postId);
 
-    @Query(value = "select p from Post p where p.user.uuid = ?1")
+    @Query(value = "select p from Post p where p.user.uuid = ?1 order by p.postId desc")
     List<Post> findAllByUser(String userUuid);
 
 //    @Query(value = "select l from PostLike l where l.user.uuid = ?1")
