@@ -60,6 +60,7 @@ public class PetController {
                 .sort(sort)
                 .start_date(start_date)
                 .pic(filePath)
+                .user(user)
                 .build();
         Pet newPet = petRepository.save(pet);
 
