@@ -12,7 +12,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
 
-    Optional<PostLike> findByUserAndPost(Long postId, User user);
+    Optional<PostLike> findByUserAndPost(User user, Post post);
 
     @Query(value = "select l from PostLike l where l.user.uuid = ?1 ")
     List<PostLike> findLikeByUser(String userUuid);

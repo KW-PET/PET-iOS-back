@@ -30,16 +30,25 @@ public class PostLikeController {
     //좋아요 등록
     @PostMapping("/like/{postId}")
     public ResponseEntity<JsonResponse> addLike(@PathVariable Long postId, HttpServletRequest request) {
-        boolean result = false;
         String userUuid = jwtService.resolveToken(request);
         User user = userService.getUser(userUuid);
-        String like="";
+        boolean result = false;
         if (Objects.nonNull(user))
-            like = postlikeService.addLike(user, postId);
-
-        return ResponseEntity.ok(new JsonResponse(true, 200, "addLike", like));
+            result = postlikeService.addLike(user, postId);
+        return ResponseEntity.ok(new JsonResponse(true, 200, "addLike", result));
 //        return result ?
 //                new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    //좋아요 취소
+    @DeleteMapping("/like/{postId}")
+    public ResponseEntity<JsonResponse> cancelLike(@PathVariable Long postId, HttpServletRequest request) {
+        String userUuid = jwtService.resolveToken(request);
+        User user = userService.getUser(userUuid);
+        if (user != null) {
+            postlikeService.cancelLike(user, postId);
+        }
+        return ResponseEntity.ok(new JsonResponse(true, 200, "cancelLike", true));
     }
 
     //내가 좋아요 한 글 보기
