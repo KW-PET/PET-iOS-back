@@ -6,6 +6,7 @@ import com.kw.pet.domain.post.PostLikeRepository;
 import com.kw.pet.domain.post.PostRepository;
 import com.kw.pet.domain.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.relational.core.sql.Like;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,24 +21,26 @@ public class PostLikeService {
 
     private final CommentService commentService;
 
-    public String addLike(User user, Long postId) {
+//    //좋아요 등록
+    public boolean addLike(User user, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow();
-
-        try{
-            PostLike postLike = postlikeRepository.findByPost(post);
-            if(postLike!=null){
-                postlikeRepository.delete(postLike);
-                return "unlike";
-            }else{
-                PostLike newLike= new PostLike(post, user);
-                postlikeRepository.save(newLike);
-                return "like";
-            }
-        } catch (Exception e){
-            System.out.println("exception");
+        //중복 좋아요 방지
+        if(isNotAlreadyLike(user, post)) {
+            postlikeRepository.save(new PostLike(post, user));
+            return true;
         }
+        return false;
+    }
 
-        return null;
+    //사용자가 이미 좋아요 한 게시물인지 체크
+    private boolean isNotAlreadyLike(User user, Post post) {
+        return postlikeRepository.findByUserAndPost(user, post).isEmpty();
+    }
+    //좋아요 취소
+    public void cancelLike(User user, Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        PostLike postlike = postlikeRepository.findByUserAndPost(user, post).orElseThrow();
+        postlikeRepository.delete(postlike);
     }
 
     //내가 좋아요한 post 조회
@@ -47,9 +50,9 @@ public class PostLikeService {
         return postList;
     }
 
-    private boolean isNotAlreadyLike(Long postId, User user) {
-        return postlikeRepository.findByUserAndPost(postId, user).isEmpty();
-    }
+//    private boolean isNotAlreadyLike(User user, Post post) {
+//        return postlikeRepository.findByUserAndPost(user, post).isEmpty();
+//    }
 
 
     public int countLike(Post post) {
