@@ -63,7 +63,7 @@ public class PetController {
                 .build();
         Pet newPet = petRepository.save(pet);
 
-        return ResponseEntity.ok(new JsonResponse(true, 200, "placeCategory", newPet));
+        return ResponseEntity.ok(new JsonResponse(true, 200, "addPet", newPet));
     }
 
     @GetMapping("/pet")
@@ -72,7 +72,7 @@ public class PetController {
         User user = userService.getUser(userUUid);
         List<Pet> pets = petRepository.findAllByUser_uuid(user.getUuid());
 
-        return ResponseEntity.ok(new JsonResponse(true, 200, "placeCategory", pets));
+        return ResponseEntity.ok(new JsonResponse(true, 200, "getPet", pets));
     }
 
     @GetMapping("/images")
