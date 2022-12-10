@@ -3,6 +3,8 @@ package com.kw.pet.controller;
 import com.kw.pet.config.BaseException;
 import com.kw.pet.config.BaseResponse;
 import com.kw.pet.config.JwtService;
+import com.kw.pet.domain.pet.Pet;
+import com.kw.pet.domain.pet.PetRepository;
 import com.kw.pet.domain.user.User;
 import com.kw.pet.dto.*;
 import com.kw.pet.service.UserService;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.kw.pet.config.BaseResponseStatus.USERS_EMPTY_USER_ID;
 
@@ -26,6 +29,7 @@ public class UserController {
     private final PostService postService;
     private final UserService userService;
     private final JwtService jwtService;
+    private final PetRepository petRepository;
 
 
     @PostMapping("/signup") // 회원가입
@@ -78,6 +82,13 @@ public class UserController {
             System.out.println("user오류");
             return new BaseResponse<>(exception.getStatus());
         }
+    }
+
+    @GetMapping("/user/pet")
+    public ResponseEntity getPet(@RequestParam Map<String, Integer> param){
+        List<Pet> pets = petRepository.findAllByUser_userId(Integer.parseInt(String.valueOf(param.get("user_id"))));
+
+        return ResponseEntity.ok(new JsonResponse(true, 200, "getPet", pets));
     }
 
 
