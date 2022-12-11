@@ -1,18 +1,22 @@
 package com.kw.pet.controller;
 
+import com.kw.pet.config.JwtService;
 import com.kw.pet.domain.place.Place;
 import com.kw.pet.domain.place.PlaceRepository;
 import com.kw.pet.domain.placeLike.PlaceLike;
 import com.kw.pet.domain.placeLike.PlaceLikeRepository;
+import com.kw.pet.domain.user.User;
 import com.kw.pet.domain.user.UserRepository;
 import com.kw.pet.dto.*;
 import com.kw.pet.service.PlaceService;
+import com.kw.pet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +33,10 @@ public class PlaceController {
     PlaceRepository placeRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    JwtService jwtService;
+    @Autowired
+    UserService userService;
 
     //장소 정보 가져오기 sort(1: 거리 순, 2: 추천 순)
     //TODO
@@ -63,10 +71,13 @@ public class PlaceController {
     //TODO
     //authorization header로 user찾아서 likestatus확인해줘야함.
     @PostMapping("/place/like")
-    public ResponseEntity placeLike(@RequestBody PlaceLikeResponseDto placeLikeResponseDto) throws IOException, ParseException {
+    public ResponseEntity placeLike(@RequestBody PlaceLikeResponseDto placeLikeResponseDto, HttpServletRequest request) throws IOException, ParseException {
+        String userUUid = jwtService.resolveToken(request);
+        User user = userService.getUser(userUUid);
+        Place place = placeRepository.findByPlaceid(placeLikeResponseDto.getPlace_id());
         PlaceLike placeLike = PlaceLike.builder()
-                .place(placeRepository.findByPlaceid((placeLikeResponseDto.getPlace_id())))
-                .user(userRepository.findByUserId(placeLikeResponseDto.getUser_id()))
+                .place(place)
+                .user(user)
                 .build();
         PlaceLike newPlaceLike = placeLikeRepository.save(placeLike);
 
