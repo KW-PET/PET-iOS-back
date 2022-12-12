@@ -111,7 +111,7 @@ public class PlaceController {
         String userUUid = jwtService.resolveToken(request);
         User user = userService.getUser(userUUid);
 
-        List<PlaceDistanceAndLikecnt> place = placeRepository.findMyLikePlace(user.getUserId());
+        List<PlaceAndLikecnt> place = placeRepository.findMyLikePlace(user.getUserId());
         return ResponseEntity.ok(new JsonResponse(true, 200, "placeCategory", place));
     }
 }
