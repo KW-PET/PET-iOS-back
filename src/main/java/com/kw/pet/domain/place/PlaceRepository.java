@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface PlaceRepository extends JpaRepository<Place, Integer> {
     Place findByPlaceid(int placeid);
 
-    @Query(value = "SELECT * from place where lon = null", nativeQuery = true)
+    @Query(value = "SELECT * from place where lon is null", nativeQuery = true)
     List<Place> findAllByLonLatIsNull();
 
     @Query(value = "SELECT *, round((sqrt( power(( xpos - :xpos), 2) + power(( ypos - :ypos), 2)) / 1000), 3) AS distance , (select count(*) from placelike where place.place_id = place_id) AS like_cnt FROM place HAVING distance <= 5 ORDER BY distance", nativeQuery = true)

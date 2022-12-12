@@ -12,4 +12,5 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface PetRepository extends JpaRepository<Pet, Long> {
     List<Pet> findAllByUser_uuid(String userUUid);
+    List<Pet> findAllByUser_userId(int userId);
 }
