@@ -29,6 +29,9 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
     @Query(value = "SELECT *, round((sqrt( power(( xpos - :xpos), 2) + power(( ypos - :ypos), 2)) / 1000), 3) AS distance , (select count(*) from placelike where place.place_id = place_id) AS like_cnt FROM place WHERE category = :category HAVING distance <= 5 ORDER BY distance", nativeQuery = true)
     List<PlaceDistanceAndLikecnt> findAllByCategory(Double xpos, Double ypos, String category);
 
+    @Query(value = "select p.place_id, p.address, p.category, p.name, p.phone, p.lat, p.lon, (select count(*) from placelike where p.place_id = place_id) AS like_cnt from place p join placelike pl on p.place_id = pl.place_id where pl.user_id = :user_id", nativeQuery = true)
+    List<PlaceDistanceAndLikecnt> findMyLikePlace(int user_id);
+
     @Transactional
     @Modifying
     @Query("update place set lon = :xpos, lat = :ypos where place_id = :placeid")

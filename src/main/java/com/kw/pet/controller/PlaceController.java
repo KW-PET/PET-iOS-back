@@ -105,4 +105,13 @@ public class PlaceController {
 
         return ResponseEntity.ok(new JsonResponse(true, 200, "placeChange", "변환 완료"));
     }
+
+    @GetMapping("/likePlace")
+    public ResponseEntity likePlace(HttpServletRequest request) throws IOException, ParseException {
+        String userUUid = jwtService.resolveToken(request);
+        User user = userService.getUser(userUUid);
+
+        List<PlaceDistanceAndLikecnt> place = placeRepository.findMyLikePlace(user.getUserId());
+        return ResponseEntity.ok(new JsonResponse(true, 200, "placeCategory", place));
+    }
 }
