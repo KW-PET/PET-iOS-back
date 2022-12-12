@@ -1,5 +1,6 @@
 package com.kw.pet.domain.place;
 
+import com.kw.pet.dto.PlaceAndLikecnt;
 import com.kw.pet.dto.PlaceDistanceAndLikecnt;
 import com.kw.pet.dto.PlaceResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,7 +31,7 @@ public interface PlaceRepository extends JpaRepository<Place, Integer> {
     List<PlaceDistanceAndLikecnt> findAllByCategory(Double xpos, Double ypos, String category);
 
     @Query(value = "select p.place_id, p.address, p.category, p.name, p.phone, p.lat, p.lon, (select count(*) from placelike where p.place_id = place_id) AS like_cnt from place p join placelike pl on p.place_id = pl.place_id where pl.user_id = :user_id", nativeQuery = true)
-    List<PlaceDistanceAndLikecnt> findMyLikePlace(int user_id);
+    List<PlaceAndLikecnt> findMyLikePlace(int user_id);
 
     @Transactional
     @Modifying
