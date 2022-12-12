@@ -1,10 +1,15 @@
 package com.kw.pet.controller;
 
+import com.kw.pet.domain.post.Post;
 import com.kw.pet.domain.post.PostLike;
 import com.kw.pet.domain.user.User;
 import com.kw.pet.config.JwtService;
 import com.kw.pet.dto.JsonResponse;
+import com.kw.pet.dto.PostLikeResponseDto;
+import com.kw.pet.dto.PostResponseDto;
+import com.kw.pet.service.CommentService;
 import com.kw.pet.service.PostLikeService;
+import com.kw.pet.service.PostService;
 import com.kw.pet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +26,10 @@ import java.util.Objects;
 @RestController
 public class PostLikeController {
     private final PostLikeService postlikeService;
-
+    private final CommentService commentService;
     private final UserService userService;
+    private final PostService postService;
     private final JwtService jwtService;
-
 
 
     //좋아요 등록
@@ -59,5 +64,7 @@ public class PostLikeController {
         List<PostLike> postList = postlikeService.getLikePostByUser(userUuid);
         return ResponseEntity.ok(new JsonResponse(true, 200, "해당 user가 좋아요한 post", postList));
     }
+
+
 
 }

@@ -1,6 +1,5 @@
 package com.kw.pet.domain.post;
 
-import com.kw.pet.domain.comment.Comment;
 import com.kw.pet.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +16,13 @@ public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
     @Query(value = "select l from PostLike l where l.user.uuid = ?1 ")
     List<PostLike> findLikeByUser(String userUuid);
 
+
+
+
+
+
     PostLike findByPost(Post post);
 
-    Integer countByPost(Post post);
+    int countByPost(Post post);
+
 }

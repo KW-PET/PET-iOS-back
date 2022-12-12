@@ -104,7 +104,6 @@ public class PostController {
         String userUuid = jwtService.resolveToken(request);
         System.out.println("user의 post");
         List<PostResponseDto.readPostList> postList = postService.getPostListByUser(userUuid);
-//        List<CommentResponseDto.Response> comments = commentService.getCommentListByUser(userUuid);
         return ResponseEntity.ok(new JsonResponse(true, 200, "해당 user가 작성한 post", postList));
     }
 

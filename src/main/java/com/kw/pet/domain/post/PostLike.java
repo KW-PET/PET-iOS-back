@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Table(name = "postlike")
 @Entity
-public class PostLike {
+public class PostLike{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "postlike_id")
@@ -27,6 +27,7 @@ public class PostLike {
         this.post = post;
         this.user = user;
     }
+
 
 
 }

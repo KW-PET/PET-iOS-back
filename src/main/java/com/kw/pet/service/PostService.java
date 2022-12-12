@@ -2,7 +2,8 @@ package com.kw.pet.service;
 
 
 import com.kw.pet.config.exception.BadRequestException;
-import com.kw.pet.dto.CommentResponseDto;
+import com.kw.pet.domain.post.PostLikeRepository;
+import com.kw.pet.dto.PostLikeResponseDto;
 import com.kw.pet.dto.PostResponseDto;
 import com.kw.pet.domain.post.Post;
 import com.kw.pet.domain.post.PostRepository;
@@ -24,6 +25,8 @@ public class PostService<Int, Optimal> {
     private final PostRepository postRepository;
     private final PostLikeService postLikeService;
     private final CommentService commentService;
+
+    private final PostLikeRepository  postlikeRepository;
 
     /* CREATE */
     @Transactional
@@ -86,7 +89,7 @@ public class PostService<Int, Optimal> {
         return postRepository.findAll(pageable);
     }
 
-
+//ㅋㅏ테고리
     public List<PostResponseDto.readPostList> getPostListByCategory(String category) {
         List<Post> postList = postRepository.findAllByCategory(category);
         List<PostResponseDto.readPostList> response = new ArrayList<>();
@@ -108,7 +111,6 @@ public class PostService<Int, Optimal> {
         }
         return response;
     }
-
 
 
     public Post getPost(Long postId) {

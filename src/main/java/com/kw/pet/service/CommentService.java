@@ -3,6 +3,7 @@ package com.kw.pet.service;
 import com.kw.pet.domain.comment.Comment;
 import com.kw.pet.domain.comment.CommentRepository;
 import com.kw.pet.domain.post.Post;
+import com.kw.pet.domain.post.PostLike;
 import com.kw.pet.domain.post.PostRepository;
 import com.kw.pet.domain.user.User;
 import com.kw.pet.domain.user.UserRepository;

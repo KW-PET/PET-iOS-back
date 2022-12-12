@@ -1,7 +1,7 @@
 package com.kw.pet.dto;
 
 import com.kw.pet.domain.post.Post;
-import io.swagger.annotations.ApiModel;
+import com.kw.pet.domain.post.PostLike;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +15,7 @@ public class PostLikeResponseDto {
 
     @ApiModelProperty(value = "좋아요 상태")
     private boolean likeStatus;
+
 
 
 

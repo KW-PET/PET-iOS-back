@@ -1,12 +1,8 @@
 package com.kw.pet.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.kw.pet.domain.post.Post;
-import com.kw.pet.domain.user.User;
+import com.kw.pet.domain.post.PostLike;
 import lombok.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class PostResponseDto {
 
@@ -26,6 +22,9 @@ public class PostResponseDto {
         private int countLike;
         private int countComment;
     }
+
+
+
 
     /** 게시글의 등록과 수정을 처리할 요청(Request) 클래스 */
     @Data
