@@ -71,12 +71,8 @@ public class PetController {
     public ResponseEntity readPet(HttpServletRequest request){
         String userUUid = jwtService.resolveToken(request);
         User user = userService.getUser(userUUid);
-        try{
-            List<Pet> pets = petRepository.findAllByUser_uuid(user.getUuid());
-            return ResponseEntity.ok(new JsonResponse(true, 200, "getPet", pets));
-        }catch (NullPointerException e) {
-            return ResponseEntity.ok(new JsonResponse(true, 200, "getPet", "[]"));
-        }
+        List<Pet> pets = petRepository.findAllByUser_uuid(user.getUuid());
+        return ResponseEntity.ok(new JsonResponse(true, 200, "getPet", pets));
     }
 
     @GetMapping("/images")
